@@ -22,6 +22,7 @@ namespace DefMat_V2._0
     public partial class Form1 : Form
     {
         FilterInfoCollection device;
+        Graphics graph;
         VideoCaptureDevice captureDevice;
         Bitmap bitmapEdgeImage, bitmapBinaryImage, bitmapGreyImage, bitmapBlurImage, colorFilterImage;
         EuclideanColorFiltering colorFilter = new EuclideanColorFiltering();
@@ -29,8 +30,16 @@ namespace DefMat_V2._0
         SolidBrush brush = new SolidBrush(Color.Black);
         SobelEdgeDetector edgeFilter = new SobelEdgeDetector();
         Pen pictureboxPen = new Pen(Color.Black, 5);
+        Pen pen = new Pen(Color.Green, 3);
+        AForge.Point center;
+        Blob[] blobPoints;
+        Rectangle[] rects;
 
-        
+
+        bool clickInImage;
+        float radius;
+        int centroid_X;
+        int centroid_Y;
         int ipenWidth = 2, iFeatureWidth;
         int iThreshold = 40, iRadius = 40;
         int iColorMode = 1, iRedValue = 220, iGreenValue = 30, iBlueValue = 30;
@@ -127,6 +136,14 @@ namespace DefMat_V2._0
                 sbBlueColor.Value = 5;
 
             }
+        }
+
+        private void cbBlur_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbBlur.Checked)
+                blurFlag = true;
+            else
+                blurFlag = false;
         }
 
         private void rbRed_CheckedChanged(object sender, EventArgs e)
@@ -266,8 +283,8 @@ namespace DefMat_V2._0
 
             blobCounter.ProcessImage(bitmapBinaryImage);
 
-            Blob[] blobPoints = blobCounter.GetObjectsInformation();
-            Graphics graph = Graphics.FromImage(bitmapSourceImage);
+            blobPoints = blobCounter.GetObjectsInformation();
+            graph = Graphics.FromImage(bitmapSourceImage);
             SimpleShapeChecker shapeChecker = new SimpleShapeChecker();
 
             for (int i = 0; i < blobPoints.Length; i++)
@@ -275,35 +292,66 @@ namespace DefMat_V2._0
                 List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);
 
 
-                if (shapeChecker.IsCircle(edgePoint, out AForge.Point center, out float radius))
+                if (shapeChecker.IsCircle(edgePoint, out center, out radius))
                 {
                     graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 10, 10);
 
-                    Rectangle[] rects = blobCounter.GetObjectsRectangles();
+                    rects = blobCounter.GetObjectsRectangles();
                     Pen pen = new Pen(Color.Red, ipenWidth);
-                    string shapeString = "" + shapeChecker.CheckShapeType(edgePoint);
+                    //string shapeString = "" + shapeChecker.CheckShapeType(edgePoint);
                     int x = (int)center.X;
                     int y = (int)center.Y;
 
                     graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
          
-                    int centroid_X = (int)blobPoints[0].CenterOfGravity.X;
-                    int centroid_Y = (int)blobPoints[0].CenterOfGravity.Y;
+                     centroid_X = (int)blobPoints[0].CenterOfGravity.X;
+                     centroid_Y = (int)blobPoints[0].CenterOfGravity.Y;
 
-                    graph.DrawEllipse(pen, centroid_X, centroid_Y, 10, 10);
+                    //graph.DrawEllipse(pen, centroid_X, centroid_Y, 10, 10);
 
                     int deg_x = centroid_X - pictureBox1.Size.Width;
                     int deg_y = pictureBox1.Size.Height - centroid_Y;
 
-                    foreach (Rectangle rc in rects)
-                    {
-                        iFeatureWidth = rc.Width;
-                        double dis = FindDistance(iFeatureWidth);
-                        //_g.DrawString(dis.ToString("N2") + "cm", _font, _brush, _x, _y + 60);
-                    }
+                    //foreach (Rectangle rc in rects)
+                    //{
+                    //    iFeatureWidth = rc.Width;
+                    //    double dis = FindDistance(iFeatureWidth);
+                    //    _g.DrawString(dis.ToString("N2") + "cm", _font, _brush, _x, _y + 60);
+                    //}
+
                 }
             }
             return bitmapSourceImage;
+        }
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Pen greenPen = new Pen(Color.Green, ipenWidth);
+            System.Drawing.Point p = e.Location;
+            for (int i = 0; i < rects.Length; i++)
+            {
+                clickInImage = rects[i].Contains(p);
+                if (clickInImage == true)
+                {
+                    graph.DrawEllipse(greenPen, rects[i].X, rects[i].Y, radius * 2, radius * 2);
+                   //MessageBox.Show("Centr circle:" + "X:" + rects[i].X + "Y:" + rects[i].Y);
+                }
+              
+            }
+
+          
+
+
+
+
+
+                //Rectangle imageArea = new Rectangle((int)(center.X - radius), (int)(center.Y - radius), (int)(radius * 2), (int)(radius * 2));
+                //bool clickInImage = imageArea.Contains(e.Location);
+                //if (clickInImage == true)
+                //{
+                //   graph.DrawRectangle(pen, imageArea);
+                //   MessageBox.Show("Centr circle:"+"X:" + center.X + "Y:" + center.Y);
+
+                //}
         }
     }
 }
