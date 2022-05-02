@@ -24,26 +24,27 @@ namespace DefMat_V2._0
         FilterInfoCollection device;
         Graphics graph;
         VideoCaptureDevice captureDevice;
-        Bitmap bitmapEdgeImage, bitmapBinaryImage, bitmapGreyImage, bitmapBlurImage, colorFilterImage;
+        Bitmap bitmapEdgeImage, bitmapBinaryImage, bitmapGreyImage, bitmapBlurImage, colorFilterImage, BsourceFrame;
         EuclideanColorFiltering colorFilter = new EuclideanColorFiltering();
-        Font font = new Font("Times New Roman", 48, FontStyle.Bold);
-        SolidBrush brush = new SolidBrush(Color.Black);
+
         SobelEdgeDetector edgeFilter = new SobelEdgeDetector();
         Pen pictureboxPen = new Pen(Color.Black, 5);
         Pen pen = new Pen(Color.Green, 3);
         AForge.Point center;
         Blob[] blobPoints;
         Rectangle[] rects;
-
+        List<int> pointsX = new List<int>();
+        List<int> pointsY = new List<int>();
 
         bool clickInImage;
         float radius;
         int centroid_X;
         int centroid_Y;
-        int ipenWidth = 2, iFeatureWidth;
+        int ipenWidth = 2;
         int iThreshold = 40, iRadius = 40;
         int iColorMode = 1, iRedValue = 220, iGreenValue = 30, iBlueValue = 30;
         bool blurFlag = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -84,20 +85,6 @@ namespace DefMat_V2._0
             }
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    if (captureDevice != null)
-            //    {
-            //        captureDevice.
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-        }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
@@ -146,6 +133,7 @@ namespace DefMat_V2._0
                 blurFlag = false;
         }
 
+
         private void rbRed_CheckedChanged(object sender, EventArgs e)
         {
             if (rbRed.Checked == true)
@@ -166,46 +154,65 @@ namespace DefMat_V2._0
             iThreshold = sbThreshold.Value;
         }
 
-        private void SrartCameras(int deviceindex)
+        
+
+        private void SrartCameras(int deviceindex)                                        //Метод выбора камеры из списка доступных
         {
             try
             {
-                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);
-                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);
-                captureDevice.Start();
+                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);//Создание эксземпляра класса VideoCapture
+                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);            // обработка события 
+                captureDevice.Start();                                                    //старт потока видео
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);                                              //Ошибка
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+
+        private void toolStripButton1_Click(object sender, EventArgs e)                   //Кнопка запуска видеопотока
         {
             try
             {
-                SrartCameras(toolStripComboBox1.SelectedIndex);
+                SrartCameras(toolStripComboBox1.SelectedIndex);                           //Запуск потока с выбранной камеры
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);                                              //Ошибка
             }
         }
 
-        private void get_Frame(object sender, NewFrameEventArgs eventArgs)
+        private void get_Frame(object sender, NewFrameEventArgs eventArgs)                // Метод захвата изображения 
         {
-            Bitmap _BsourceFrame = (Bitmap)eventArgs.Frame.Clone();
-            pictureBox1.Image = BlobDetection(_BsourceFrame);
-            pictureBox2.Image = bitmapEdgeImage;
+            BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                        // Обьект Bitmap изображения
+            pictureBox1.Image = BlobDetection(BsourceFrame);                              // Главное изображение 
+            pictureBox2.Image = bitmapEdgeImage;                                          // pB2 - pB4 вспомогательное изображение 
             pictureBox3.Image = bitmapBinaryImage;
             pictureBox4.Image = colorFilterImage;
 
         }
-        private void Form1_Load(object sender, EventArgs e)
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти из программы?", "Завершение программы", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (dialog == DialogResult.Yes)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)                                         
         {
             try
             {
-                device = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                device = new FilterInfoCollection(FilterCategory.VideoInputDevice);        //Вывод списка камер в ComboBox 
                 for (var i = 0; i < device.Count; i++)
                     toolStripComboBox1.Items.Add(device[i].Name);
 
@@ -215,7 +222,8 @@ namespace DefMat_V2._0
                 MessageBox.Show(ex.Message);
             }
         }
-        private double FindDistance(int pixel)
+        
+        private double FindCamDistance(int pixel)
         {
             double distance;
             double objectWidth = 10, focalLength = 604.8;
@@ -224,9 +232,11 @@ namespace DefMat_V2._0
             return distance;
 
         }
-        private Bitmap BlobDetection(Bitmap bitmapSourceImage)
+
+
+        private Bitmap BlobDetection(Bitmap bitmapSourceImage)                            //Метод обнаружения обьектов 
         {     
-            switch (iColorMode)
+            switch (iColorMode)                                                           //Конструкция для переключения цветовой палитры
             {
                 case 1:
                     iRedValue = sbRedColor.Value;
@@ -257,44 +267,44 @@ namespace DefMat_V2._0
                     break;
             }
 
-            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);
-            bitmapGreyImage = grayscale.Apply(colorFilterImage);
+            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);                          //Градации серого изображения
+            bitmapGreyImage = grayscale.Apply(colorFilterImage);                                  // Создание бинарного изображения в сером фильтре
 
-            if (blurFlag == true)
+            if (blurFlag == true)                                                                 //если блюр вкл
             {
-                GaussianBlur blurfilter = new GaussianBlur(1.5);
-                bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);
+                GaussianBlur blurfilter = new GaussianBlur(1.5);                                  //Размытие по Гаусу
+                bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);                              
                 bitmapEdgeImage = edgeFilter.Apply(bitmapBlurImage);
             }
-            else if (blurFlag == false)
+            else if (blurFlag == false)                                                           //если блюр выкл
             {
-                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);
+                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);                              //дефолт
             }
 
-            Threshold threshold = new Threshold(iThreshold);
-            bitmapBinaryImage = threshold.Apply(bitmapEdgeImage);
+            Threshold threshold = new Threshold(iThreshold);                                      //обьект для бинаризации изображения с порогом
+            bitmapBinaryImage = threshold.Apply(bitmapEdgeImage);                                
 
-            BlobCounter blobCounter = new BlobCounter
-            {
+            BlobCounter blobCounter = new BlobCounter                                             //обьект для подсчёта Blobs 
+            {                                                                                     //c определенными параметрами
                 MinWidth = 10,
                 MinHeight = 10,
                 FilterBlobs = true
             };
 
-            blobCounter.ProcessImage(bitmapBinaryImage);
+            blobCounter.ProcessImage(bitmapBinaryImage);                                          //Подсчёт неообработанных изображений
 
-            blobPoints = blobCounter.GetObjectsInformation();
-            graph = Graphics.FromImage(bitmapSourceImage);
-            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();
+            blobPoints = blobCounter.GetObjectsInformation();                                     //Создание массива из необработанных обьектов
+            graph = Graphics.FromImage(bitmapSourceImage);                                        //Создание обьекта для рисования
+            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();                           //Обьект для обнаружения фигуры
 
-            for (int i = 0; i < blobPoints.Length; i++)
+            for (int i = 0; i < blobPoints.Length; i++)                                           
             {
-                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);
+                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);         //Запись в List краевых точек блоба 
+                                                                                                  //для последующей проверки
 
-
-                if (shapeChecker.IsCircle(edgePoint, out center, out radius))
+                if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     //Елси круг то..
                 {
-                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 10, 10);
+                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 10, 10); //рисуем эллипс в пределах pB
 
                     rects = blobCounter.GetObjectsRectangles();
                     Pen pen = new Pen(Color.Red, ipenWidth);
@@ -302,56 +312,69 @@ namespace DefMat_V2._0
                     int x = (int)center.X;
                     int y = (int)center.Y;
 
-                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
          
-                     centroid_X = (int)blobPoints[0].CenterOfGravity.X;
-                     centroid_Y = (int)blobPoints[0].CenterOfGravity.Y;
+                     centroid_X = (int)blobPoints[i].CenterOfGravity.X;
+                     centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
 
-                    //graph.DrawEllipse(pen, centroid_X, centroid_Y, 10, 10);
+                    graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);
 
                     int deg_x = centroid_X - pictureBox1.Size.Width;
                     int deg_y = pictureBox1.Size.Height - centroid_Y;
-
-                    //foreach (Rectangle rc in rects)
-                    //{
-                    //    iFeatureWidth = rc.Width;
-                    //    double dis = FindDistance(iFeatureWidth);
-                    //    _g.DrawString(dis.ToString("N2") + "cm", _font, _brush, _x, _y + 60);
-                    //}
-
+                    
                 }
             }
             return bitmapSourceImage;
         }
+       
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            Pen greenPen = new Pen(Color.Green, ipenWidth);
-            System.Drawing.Point p = e.Location;
+
+
+            Pen greenPen = new Pen(Color.Green, 5);
             for (int i = 0; i < rects.Length; i++)
             {
-                clickInImage = rects[i].Contains(p);
+
+                clickInImage = rects[i].Contains(e.Location);
                 if (clickInImage == true)
                 {
-                    graph.DrawEllipse(greenPen, rects[i].X, rects[i].Y, radius * 2, radius * 2);
-                   //MessageBox.Show("Centr circle:" + "X:" + rects[i].X + "Y:" + rects[i].Y);
+                    pointsX.Add((rects[i].X));
+                    pointsY.Add((rects[i].Y));
+                    
+                    // graph.DrawEllipse(greenPen, rects[i].X, rects[i].Y, radius * 2, radius * 2);
+                    // MessageBox.Show("Centr circle:" + "X:" + rects[i].X + "Y:" + rects[i].Y);
                 }
-              
+                if (pointsX.Count == 2 && pointsY.Count == 2)
+                {
+                    FindDistance();
+                    
+                }
             }
+        }
 
-          
+        private string FindDistance()
+        {
+            
+            return  label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].X - rects[1].Y, 2)))* 0.2645833333333);
+            
+        }
 
+        private void label7_TextChanged(object sender, EventArgs e)
+        {
+            label7.Refresh();
+        }
 
+        private void GraphsButton_Click(object sender, EventArgs e)
+        {
+            Graphs graphs = new Graphs();
+            graphs.Show();
+        }
 
+        private void ScreenshotsButton_Click(object sender, EventArgs e)
+        {
 
-
-                //Rectangle imageArea = new Rectangle((int)(center.X - radius), (int)(center.Y - radius), (int)(radius * 2), (int)(radius * 2));
-                //bool clickInImage = imageArea.Contains(e.Location);
-                //if (clickInImage == true)
-                //{
-                //   graph.DrawRectangle(pen, imageArea);
-                //   MessageBox.Show("Centr circle:"+"X:" + center.X + "Y:" + center.Y);
-
-                //}
+            Screen screen = new Screen(BsourceFrame);
+            screen.Show();
         }
     }
 }
