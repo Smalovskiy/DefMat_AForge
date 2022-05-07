@@ -32,7 +32,6 @@ namespace DefMat_V2._0
             this.dGVResults = new System.Windows.Forms.DataGridView();
             this.ExitScreenButton1 = new System.Windows.Forms.Button();
             this.SaveDbbutton1 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dGVResults)).BeginInit();
             this.SuspendLayout();
@@ -47,7 +46,7 @@ namespace DefMat_V2._0
             // 
             // ExitScreenButton1
             // 
-            this.ExitScreenButton1.Location = new System.Drawing.Point(13, 141);
+            this.ExitScreenButton1.Location = new System.Drawing.Point(12, 98);
             this.ExitScreenButton1.Name = "ExitScreenButton1";
             this.ExitScreenButton1.Size = new System.Drawing.Size(179, 37);
             this.ExitScreenButton1.TabIndex = 8;
@@ -61,21 +60,13 @@ namespace DefMat_V2._0
             this.SaveDbbutton1.Name = "SaveDbbutton1";
             this.SaveDbbutton1.Size = new System.Drawing.Size(179, 37);
             this.SaveDbbutton1.TabIndex = 9;
-            this.SaveDbbutton1.Text = "Сохранить";
+            this.SaveDbbutton1.Text = "Экспорт";
             this.SaveDbbutton1.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 55);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(179, 37);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Добавить";
-            this.button1.UseVisualStyleBackColor = true;
+            this.SaveDbbutton1.Click += new System.EventHandler(this.SaveDbbutton1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(13, 98);
+            this.button2.Location = new System.Drawing.Point(12, 55);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(179, 37);
             this.button2.TabIndex = 11;
@@ -88,13 +79,12 @@ namespace DefMat_V2._0
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(821, 483);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.SaveDbbutton1);
             this.Controls.Add(this.ExitScreenButton1);
             this.Controls.Add(this.dGVResults);
             this.Name = "DBResultsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DBResultsForm";
+            this.Text = "Results";
             this.Load += new System.EventHandler(this.DBResultsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dGVResults)).EndInit();
             this.ResumeLayout(false);
@@ -106,7 +96,6 @@ namespace DefMat_V2._0
         private System.Windows.Forms.DataGridView dGVResults;
         private System.Windows.Forms.Button ExitScreenButton1;
         private System.Windows.Forms.Button SaveDbbutton1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
     }
 }

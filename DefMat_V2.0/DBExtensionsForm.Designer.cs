@@ -62,8 +62,9 @@ namespace DefMat_V2._0
             this.SaveDbbutton3.Name = "SaveDbbutton3";
             this.SaveDbbutton3.Size = new System.Drawing.Size(177, 34);
             this.SaveDbbutton3.TabIndex = 10;
-            this.SaveDbbutton3.Text = "Сохранить ";
+            this.SaveDbbutton3.Text = "Экспорт";
             this.SaveDbbutton3.UseVisualStyleBackColor = true;
+            this.SaveDbbutton3.Click += new System.EventHandler(this.SaveDbbutton3_Click);
             // 
             // button1
             // 
@@ -95,7 +96,7 @@ namespace DefMat_V2._0
             this.Controls.Add(this.dGVExtension);
             this.Name = "DBExtensionsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DBExtensionsForm";
+            this.Text = "Extensions";
             this.Load += new System.EventHandler(this.DBExtensionsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dGVExtension)).EndInit();
             this.ResumeLayout(false);

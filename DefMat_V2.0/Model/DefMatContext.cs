@@ -11,7 +11,7 @@ namespace DefMat_V2._0.Model
     {
         public DefMatContext() : base("DefMatConnection") {}
 
-        public DbSet <Extension> Extensions { get; set; }
+        public DbSet <Extensions> Extensions { get; set; }
 
         public DbSet  <Materials> Materials { get; set; }
 

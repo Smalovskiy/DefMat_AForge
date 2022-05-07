@@ -192,7 +192,7 @@ namespace DefMat_V2._0
 
         private void ExtensionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var catalogExtensoins = new DBExtensionsForm<Extension>(db.Extensions);
+            var catalogExtensoins = new DBExtensionsForm<Extensions>(db.Extensions);
             catalogExtensoins.Show();
         }
 

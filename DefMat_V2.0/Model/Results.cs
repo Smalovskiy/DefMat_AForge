@@ -8,7 +8,7 @@ namespace DefMat_V2._0.Model
 {
     class Results
     {
-        public int ResultsId { get; set; }
+        public int Id { get; set; }
 
         public double Speed { get; set; }
 
@@ -17,7 +17,6 @@ namespace DefMat_V2._0.Model
         public int MaterialsId { get; set; }
 
         public int ExtensionId { get; set; }
-
 
     }
 }

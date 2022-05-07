@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DefMat_V2._0.Model
 {
-    class Extension
+    class Extensions
     {
-        public int ExtensionId { get; set; }
+        public int Id { get; set; }
 
         public double Longation { get; set; }
 
