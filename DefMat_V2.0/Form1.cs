@@ -16,11 +16,14 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
+using DefMat_V2._0.Model;
 
 namespace DefMat_V2._0
 {
     public partial class Form1 : Form
     {
+        #region Init
+        DefMatContext db;
         FilterInfoCollection device;
         Graphics graph;
         VideoCaptureDevice captureDevice;
@@ -44,12 +47,13 @@ namespace DefMat_V2._0
         int iThreshold = 40, iRadius = 40;
         int iColorMode = 1, iRedValue = 220, iGreenValue = 30, iBlueValue = 30;
         bool blurFlag = false;
-
+        #endregion
         public Form1()
         {
             InitializeComponent();
+            db = new DefMatContext();
         }
-
+        #region Components
         private void sbGreenColor_Scroll(object sender, ScrollEventArgs e)
         {
            iGreenValue = sbGreenColor.Value;
@@ -153,8 +157,53 @@ namespace DefMat_V2._0
         {
             iThreshold = sbThreshold.Value;
         }
+        private void GraphsButton_Click(object sender, EventArgs e)
+        {
+            GraphsForm graphs = new GraphsForm();
+            graphs.Show();
 
-        
+        }
+
+        private void ScreenshotsButton_Click(object sender, EventArgs e)
+        {
+
+            ScreenForm screen = new ScreenForm(BsourceFrame);
+            screen.Show();
+
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)                   //Кнопка запуска видеопотока
+        {
+            try
+            {
+                SrartCameras(toolStripComboBox1.SelectedIndex);                           //Запуск потока с выбранной камеры
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);                                              //Ошибка
+            }
+        }
+
+        private void materialsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var catalogMaterials = new DBMaterialForm<Materials>(db.Materials);
+            catalogMaterials.Show();
+        }
+
+        private void ExtensionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var catalogExtensoins = new DBExtensionsForm<Extension>(db.Extensions);
+            catalogExtensoins.Show();
+        }
+
+        private void ResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var catalogResults = new DBResultsForm<Results>(db.Results);
+            catalogResults.Show();
+
+        }
+        #endregion
+
 
         private void SrartCameras(int deviceindex)                                        //Метод выбора камеры из списка доступных
         {
@@ -171,28 +220,6 @@ namespace DefMat_V2._0
         }
 
 
-        private void toolStripButton1_Click(object sender, EventArgs e)                   //Кнопка запуска видеопотока
-        {
-            try
-            {
-                SrartCameras(toolStripComboBox1.SelectedIndex);                           //Запуск потока с выбранной камеры
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);                                              //Ошибка
-            }
-        }
-
-        private void get_Frame(object sender, NewFrameEventArgs eventArgs)                // Метод захвата изображения 
-        {
-            BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                        // Обьект Bitmap изображения
-            pictureBox1.Image = BlobDetection(BsourceFrame);                              // Главное изображение 
-            pictureBox2.Image = bitmapEdgeImage;                                          // pB2 - pB4 вспомогательное изображение 
-            pictureBox3.Image = bitmapBinaryImage;
-            pictureBox4.Image = colorFilterImage;
-
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти из программы?", "Завершение программы", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -208,7 +235,7 @@ namespace DefMat_V2._0
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)                                         
+        private void Form1_Load(object sender, EventArgs e)
         {
             try
             {
@@ -222,18 +249,28 @@ namespace DefMat_V2._0
                 MessageBox.Show(ex.Message);
             }
         }
-        
-        private double FindCamDistance(int pixel)
-        {
-            double distance;
-            double objectWidth = 10, focalLength = 604.8;
 
-            distance = (objectWidth * focalLength) / pixel;
-            return distance;
+        private void get_Frame(object sender, NewFrameEventArgs eventArgs)                // Метод захвата изображения 
+        {
+            BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                               // Обьект Bitmap изображения
+            pictureBox1.Image = BlobDetection(BsourceFrame);                              // Главное изображение 
+            pictureBox2.Image = bitmapEdgeImage;                                          // pB2 - pB4 вспомогательное изображение 
+            pictureBox3.Image = bitmapBinaryImage;
+            pictureBox4.Image = colorFilterImage;
 
         }
 
+        //private double FindCamDistance(int pixel)
+        //{
+        //    double distance;
+        //    double objectWidth = 10, focalLength = 604.8;
 
+        //    distance = (objectWidth * focalLength) / pixel;
+        //    return distance;
+
+        //}
+
+        #region BlobDetection
         private Bitmap BlobDetection(Bitmap bitmapSourceImage)                            //Метод обнаружения обьектов 
         {     
             switch (iColorMode)                                                           //Конструкция для переключения цветовой палитры
@@ -326,7 +363,8 @@ namespace DefMat_V2._0
             }
             return bitmapSourceImage;
         }
-       
+        #endregion
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -353,28 +391,16 @@ namespace DefMat_V2._0
         }
 
         private string FindDistance()
-        {
-            
-            return  label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].X - rects[1].Y, 2)))* 0.2645833333333);
-            
+        {  
+            return  label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].X - rects[1].Y, 2)))* 0.2645833333333); 
+
         }
 
         private void label7_TextChanged(object sender, EventArgs e)
         {
             label7.Refresh();
+
         }
 
-        private void GraphsButton_Click(object sender, EventArgs e)
-        {
-            Graphs graphs = new Graphs();
-            graphs.Show();
-        }
-
-        private void ScreenshotsButton_Click(object sender, EventArgs e)
-        {
-
-            Screen screen = new Screen(BsourceFrame);
-            screen.Show();
-        }
     }
 }

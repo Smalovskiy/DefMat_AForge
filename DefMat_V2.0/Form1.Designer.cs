@@ -37,6 +37,10 @@ namespace DefMat_V2._0
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.базаДанныхToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExtensionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
@@ -110,7 +114,8 @@ namespace DefMat_V2._0
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
-            this.справкаToolStripMenuItem});
+            this.справкаToolStripMenuItem,
+            this.базаДанныхToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1345, 24);
@@ -128,6 +133,37 @@ namespace DefMat_V2._0
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
             this.справкаToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.справкаToolStripMenuItem.Text = "Справка";
+            // 
+            // базаДанныхToolStripMenuItem
+            // 
+            this.базаДанныхToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.materialsToolStripMenuItem,
+            this.ExtensionsToolStripMenuItem,
+            this.ResultsToolStripMenuItem});
+            this.базаДанныхToolStripMenuItem.Name = "базаДанныхToolStripMenuItem";
+            this.базаДанныхToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.базаДанныхToolStripMenuItem.Text = "База данных";
+            // 
+            // materialsToolStripMenuItem
+            // 
+            this.materialsToolStripMenuItem.Name = "materialsToolStripMenuItem";
+            this.materialsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.materialsToolStripMenuItem.Text = "Материал";
+            this.materialsToolStripMenuItem.Click += new System.EventHandler(this.materialsToolStripMenuItem_Click);
+            // 
+            // ExtensionsToolStripMenuItem
+            // 
+            this.ExtensionsToolStripMenuItem.Name = "ExtensionsToolStripMenuItem";
+            this.ExtensionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.ExtensionsToolStripMenuItem.Text = "Удлиннение";
+            this.ExtensionsToolStripMenuItem.Click += new System.EventHandler(this.ExtensionsToolStripMenuItem_Click);
+            // 
+            // ResultsToolStripMenuItem
+            // 
+            this.ResultsToolStripMenuItem.Name = "ResultsToolStripMenuItem";
+            this.ResultsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.ResultsToolStripMenuItem.Text = "Результат";
+            this.ResultsToolStripMenuItem.Click += new System.EventHandler(this.ResultsToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -421,6 +457,7 @@ namespace DefMat_V2._0
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DefMat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -475,6 +512,10 @@ namespace DefMat_V2._0
         private System.Windows.Forms.Button GraphsButton;
         private System.Windows.Forms.Button ScreenshotsButton;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripMenuItem базаДанныхToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem materialsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExtensionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ResultsToolStripMenuItem;
     }
 }
 

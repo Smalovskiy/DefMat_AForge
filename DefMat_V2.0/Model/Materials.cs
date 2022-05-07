@@ -14,8 +14,7 @@ namespace DefMat_V2._0.Model
 
         public double Density { get; set; }
 
-        public int ResultsId { get; set; }
 
-        public Results results { get; set; }
+        public virtual ICollection<Results> Results { get; set; }
     }
 }

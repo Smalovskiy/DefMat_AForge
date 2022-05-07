@@ -1,7 +1,7 @@
 ﻿
 namespace DefMat_V2._0
 {
-    partial class Screen
+    partial class ScreenForm
     {
         /// <summary>
         /// Required designer variable.
@@ -50,7 +50,7 @@ namespace DefMat_V2._0
             this.SaveScreenButton.Name = "SaveScreenButton";
             this.SaveScreenButton.Size = new System.Drawing.Size(218, 34);
             this.SaveScreenButton.TabIndex = 1;
-            this.SaveScreenButton.Text = "Сохранить";
+            this.SaveScreenButton.Text = "Save";
             this.SaveScreenButton.UseVisualStyleBackColor = true;
             this.SaveScreenButton.Click += new System.EventHandler(this.SaveScreenButton_Click);
             // 
@@ -60,7 +60,7 @@ namespace DefMat_V2._0
             this.EditScreenButton.Name = "EditScreenButton";
             this.EditScreenButton.Size = new System.Drawing.Size(218, 34);
             this.EditScreenButton.TabIndex = 2;
-            this.EditScreenButton.Text = "Редактировать (beta)";
+            this.EditScreenButton.Text = "Edit (beta)";
             this.EditScreenButton.UseVisualStyleBackColor = true;
             // 
             // ExitScreenButton
@@ -69,11 +69,11 @@ namespace DefMat_V2._0
             this.ExitScreenButton.Name = "ExitScreenButton";
             this.ExitScreenButton.Size = new System.Drawing.Size(218, 34);
             this.ExitScreenButton.TabIndex = 3;
-            this.ExitScreenButton.Text = "Выйти";
+            this.ExitScreenButton.Text = "Back";
             this.ExitScreenButton.UseVisualStyleBackColor = true;
             this.ExitScreenButton.Click += new System.EventHandler(this.ExitScreenButton_Click);
             // 
-            // Screen
+            // ScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,8 +82,8 @@ namespace DefMat_V2._0
             this.Controls.Add(this.EditScreenButton);
             this.Controls.Add(this.SaveScreenButton);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Screen";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Name = "ScreenForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Screen";
             this.Load += new System.EventHandler(this.Screen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

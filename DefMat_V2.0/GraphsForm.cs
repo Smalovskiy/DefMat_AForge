@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DefMat_V2._0
 {
-    public partial class Graphs : Form
+    public partial class GraphsForm : Form
     {
-        public Graphs()
+        public GraphsForm()
         {
             InitializeComponent();
         }
@@ -24,8 +24,8 @@ namespace DefMat_V2._0
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DataBaseForm db = new DataBaseForm();
-            db.Show();
+            //DataBaseForm db = new DataBaseForm();
+            //db.Show();
         }
     }
 }

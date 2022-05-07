@@ -1,7 +1,7 @@
 ﻿
 namespace DefMat_V2._0
 {
-    partial class DataBaseForm
+    partial class GraphsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,26 +30,39 @@ namespace DefMat_V2._0
         private void InitializeComponent()
         {
             this.ExitScreenButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ExitScreenButton
             // 
-            this.ExitScreenButton.Location = new System.Drawing.Point(590, 493);
+            this.ExitScreenButton.Location = new System.Drawing.Point(703, 593);
             this.ExitScreenButton.Name = "ExitScreenButton";
             this.ExitScreenButton.Size = new System.Drawing.Size(218, 34);
-            this.ExitScreenButton.TabIndex = 5;
-            this.ExitScreenButton.Text = "Выйти";
+            this.ExitScreenButton.TabIndex = 4;
+            this.ExitScreenButton.Text = "Back";
             this.ExitScreenButton.UseVisualStyleBackColor = true;
             this.ExitScreenButton.Click += new System.EventHandler(this.ExitScreenButton_Click);
             // 
-            // DataBaseForm
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 593);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(218, 34);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Data base";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // GraphsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 539);
+            this.ClientSize = new System.Drawing.Size(933, 639);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ExitScreenButton);
-            this.Name = "DataBaseForm";
-            this.Text = "DataBaseForm";
+            this.Name = "GraphsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Graphs";
             this.ResumeLayout(false);
 
         }
@@ -57,5 +70,6 @@ namespace DefMat_V2._0
         #endregion
 
         private System.Windows.Forms.Button ExitScreenButton;
+        private System.Windows.Forms.Button button1;
     }
 }

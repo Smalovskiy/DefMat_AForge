@@ -20,13 +20,13 @@ using System.IO;
 
 namespace DefMat_V2._0
 {
-    public partial class Screen : Form
+    public partial class ScreenForm : Form
     {
         private Bitmap image = null;
 
         private string filename = string.Empty;
 
-        public Screen(Image image)
+        public ScreenForm(Image image)
         {
             this.image = (Bitmap)image;
             InitializeComponent();

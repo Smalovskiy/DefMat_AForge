@@ -14,8 +14,10 @@ namespace DefMat_V2._0.Model
 
         public double Effort { get; set; }
 
-        public virtual ICollection<Extension> Extensions { get; set; }
-        public virtual ICollection<Materials> Materials { get; set; }
+        public int MaterialsId { get; set; }
+
+        public int ExtensionId { get; set; }
+
 
     }
 }

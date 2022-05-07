@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace DefMat_V2._0
 {
-    public partial class DataBaseForm : Form
+    public partial class AddMaterialForm : Form
     {
-        public DataBaseForm()
+        public AddMaterialForm()
         {
             InitializeComponent();
-        }
-
-        private void ExitScreenButton_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }
