@@ -184,26 +184,27 @@ namespace DefMat_V2._0
             }
         }
 
+
         private void materialsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            checked {};
             var catalogMaterials = new DBMaterialForm<Materials>(db.Materials);
             catalogMaterials.Show();
         }
 
-        private void ExtensionsToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void ExtensionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var catalogExtensoins = new DBExtensionsForm<Extensions>(db.Extensions);
             catalogExtensoins.Show();
         }
 
-        private void ResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void ResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var catalogResults = new DBResultsForm<Results>(db.Results);
             catalogResults.Show();
-
         }
         #endregion
-
+       
 
         private void SrartCameras(int deviceindex)                                        //Метод выбора камеры из списка доступных
         {
@@ -365,42 +366,47 @@ namespace DefMat_V2._0
         }
         #endregion
 
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-
-
+            if (rects.Length >= 2)
+            {
+                label9.Show();
+            }
             Pen greenPen = new Pen(Color.Green, 5);
             for (int i = 0; i < rects.Length; i++)
             {
 
                 clickInImage = rects[i].Contains(e.Location);
+                
                 if (clickInImage == true)
                 {
+                   
                     pointsX.Add((rects[i].X));
                     pointsY.Add((rects[i].Y));
                     
                     // graph.DrawEllipse(greenPen, rects[i].X, rects[i].Y, radius * 2, radius * 2);
                     // MessageBox.Show("Centr circle:" + "X:" + rects[i].X + "Y:" + rects[i].Y);
                 }
-                if (pointsX.Count == 2 && pointsY.Count == 2)
+                if (pointsX.Count == 2)
                 {
-                    FindDistance();
-                    
+                    label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * 0.2645833333333);
+                    label9.Hide();
                 }
+
+
+
+                //if(pointsX.Count == 4)
+                //{
+                //    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[2] - pointsX[3], 2) + Math.Pow(pointsY[2] - pointsY[3], 2))) * 0.2645833333333);
+                //}
             }
         }
 
-        private string FindDistance()
-        {  
-            return  label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].X - rects[1].Y, 2)))* 0.2645833333333); 
-
-        }
-
-        private void label7_TextChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            label7.Refresh();
+           label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].Y - rects[1].Y, 2))) * 0.2645833333333);
 
         }
-
     }
 }
