@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using DefMat_V2._0.Model;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace DefMat_V2._0
     public partial class DBExtensionsForm<T> : Form
          where T : class
     {
+        DefMatContext db;
         DbSet<T> set;
 
         public DBExtensionsForm(DbSet<T> set)
@@ -24,6 +26,8 @@ namespace DefMat_V2._0
             this.set = set;
             set.Load();
             dGVExtension.DataSource = set.Local.ToBindingList();
+            dGVExtension.Columns["Results"].Visible = false;
+            dGVExtension.RowHeadersVisible = false;
         }
 
         private void ExitScreenButton2_Click(object sender, EventArgs e)
@@ -57,6 +61,23 @@ namespace DefMat_V2._0
             Range CR = (Range)xlWorkSheet.Cells[1, 1];
             CR.Select();
             xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+        }
+
+        private void DelExtensionsButton_Click(object sender, EventArgs e)
+        {
+            if (dGVExtension.SelectedRows.Count > 0)
+            {
+                int index = dGVExtension.SelectedRows[0].Index;
+                int id;
+                bool converted = Int32.TryParse(dGVExtension[0, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                Materials material = db.Materials.Find(id);
+                db.Materials.Remove(material);
+                db.SaveChanges();
+
+            }
         }
     }
 }

@@ -29,20 +29,20 @@ namespace DefMat_V2._0
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ScreenPB = new System.Windows.Forms.PictureBox();
             this.SaveScreenButton = new System.Windows.Forms.Button();
             this.EditScreenButton = new System.Windows.Forms.Button();
             this.ExitScreenButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScreenPB)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // ScreenPB
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(13, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(737, 432);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.ScreenPB.Location = new System.Drawing.Point(13, 13);
+            this.ScreenPB.Name = "ScreenPB";
+            this.ScreenPB.Size = new System.Drawing.Size(737, 432);
+            this.ScreenPB.TabIndex = 0;
+            this.ScreenPB.TabStop = false;
             // 
             // SaveScreenButton
             // 
@@ -81,19 +81,19 @@ namespace DefMat_V2._0
             this.Controls.Add(this.ExitScreenButton);
             this.Controls.Add(this.EditScreenButton);
             this.Controls.Add(this.SaveScreenButton);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.ScreenPB);
             this.Name = "ScreenForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Screen";
             this.Load += new System.EventHandler(this.Screen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScreenPB)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox ScreenPB;
         private System.Windows.Forms.Button SaveScreenButton;
         private System.Windows.Forms.Button EditScreenButton;
         private System.Windows.Forms.Button ExitScreenButton;

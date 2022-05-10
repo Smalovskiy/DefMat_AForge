@@ -29,37 +29,25 @@ namespace DefMat_V2._0
         /// </summary>
         private void InitializeComponent()
         {
-            this.ExitScreenButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ExitGraphsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // ExitScreenButton
+            // ExitGraphsButton
             // 
-            this.ExitScreenButton.Location = new System.Drawing.Point(703, 593);
-            this.ExitScreenButton.Name = "ExitScreenButton";
-            this.ExitScreenButton.Size = new System.Drawing.Size(218, 34);
-            this.ExitScreenButton.TabIndex = 4;
-            this.ExitScreenButton.Text = "Back";
-            this.ExitScreenButton.UseVisualStyleBackColor = true;
-            this.ExitScreenButton.Click += new System.EventHandler(this.ExitScreenButton_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 593);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(218, 34);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Data base";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ExitGraphsButton.Location = new System.Drawing.Point(703, 593);
+            this.ExitGraphsButton.Name = "ExitGraphsButton";
+            this.ExitGraphsButton.Size = new System.Drawing.Size(218, 34);
+            this.ExitGraphsButton.TabIndex = 4;
+            this.ExitGraphsButton.Text = "Back";
+            this.ExitGraphsButton.UseVisualStyleBackColor = true;
+            this.ExitGraphsButton.Click += new System.EventHandler(this.ExitGraphsButton_Click);
             // 
             // GraphsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 639);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.ExitScreenButton);
+            this.Controls.Add(this.ExitGraphsButton);
             this.Name = "GraphsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Graphs";
@@ -69,7 +57,6 @@ namespace DefMat_V2._0
 
         #endregion
 
-        private System.Windows.Forms.Button ExitScreenButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ExitGraphsButton;
     }
 }

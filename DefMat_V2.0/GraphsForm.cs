@@ -17,15 +17,9 @@ namespace DefMat_V2._0
             InitializeComponent();
         }
 
-        private void ExitScreenButton_Click(object sender, EventArgs e)
+        private void ExitGraphsButton_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //DataBaseForm db = new DataBaseForm();
-            //db.Show();
         }
     }
 }

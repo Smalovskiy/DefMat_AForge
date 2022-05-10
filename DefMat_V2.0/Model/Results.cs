@@ -16,7 +16,7 @@ namespace DefMat_V2._0.Model
 
         public int MaterialsId { get; set; }
 
-        public int ExtensionId { get; set; }
+        public int ExtensionsId { get; set; }
 
     }
 }

@@ -24,7 +24,7 @@ namespace DefMat_V2._0
     {
         private Bitmap image = null;
 
-        private string filename = string.Empty;
+        private string filename;
 
         public ScreenForm(Image image)
         {
@@ -40,7 +40,7 @@ namespace DefMat_V2._0
         private void Screen_Load(object sender, EventArgs e)
         {
             filename = $"WCVC_{DateTime.Now.Day}_{DateTime.Now.Month}_{DateTime.Now.Year}_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.jpg";
-            pictureBox1.Image = image;
+            ScreenPB.Image = image;
         }
 
         private void SaveScreenButton_Click(object sender, EventArgs e)
@@ -81,7 +81,7 @@ namespace DefMat_V2._0
             if (sd.ShowDialog() == DialogResult.OK)
             {
                 string newfilename = sd.FileName;
-                pictureBox1.Image.Save(newfilename, ImageFormat.Jpeg);
+                ScreenPB.Image.Save(newfilename, ImageFormat.Jpeg);
                 Close();
             }
         }

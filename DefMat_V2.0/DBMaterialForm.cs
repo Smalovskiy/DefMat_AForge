@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace DefMat_V2._0
 {
@@ -28,6 +30,8 @@ namespace DefMat_V2._0
             db.Materials.Load();
             set.Load();
             dataGridView.DataSource = db.Materials.Local.ToBindingList();
+            dataGridView.Columns["Results"].Visible = false;
+            dataGridView.RowHeadersVisible = false;
         }
         
         private void ExitScreenButton_Click(object sender, EventArgs e)
@@ -51,23 +55,23 @@ namespace DefMat_V2._0
             DataObject dataObj = dataGridView.GetClipboardContent();
             if (dataObj != null)
                 Clipboard.SetDataObject(dataObj);
+                
         }
 
         private void SaveDbbutton2_Click(object sender, EventArgs e)
         {
-                copyAlltoClipboard();
-                Microsoft.Office.Interop.Excel.Application xlexcel;
-                Workbook xlWorkBook;
-                Worksheet xlWorkSheet;
-                object misValue = System.Reflection.Missing.Value;
-                xlexcel = new Microsoft.Office.Interop.Excel.Application();
-                xlexcel.Visible = true;
-                xlWorkBook = xlexcel.Workbooks.Add(misValue);
-                xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
-                Range CR = (Range)xlWorkSheet.Cells[1, 1];
-                CR.Select();
-                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
-            
+            copyAlltoClipboard();
+            Microsoft.Office.Interop.Excel.Application xlexcel;
+            Workbook xlWorkBook;
+            Worksheet xlWorkSheet;
+            object misValue = System.Reflection.Missing.Value;
+            xlexcel = new Microsoft.Office.Interop.Excel.Application();
+            xlexcel.Visible = true;
+            xlWorkBook = xlexcel.Workbooks.Add(misValue);
+            xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            Range CR = (Range)xlWorkSheet.Cells[1, 1];
+            CR.Select();
+            xlWorkSheet.PasteSpecial(CR, false, false, Type.Missing, Type.Missing, Type.Missing, true);  
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -80,12 +84,34 @@ namespace DefMat_V2._0
 
             Materials material = new Materials();
             material.Material = addMaterial.textBox1.Text;
-            material.Thicksness = Convert.ToDouble(addMaterial.textBox2.Text);
-            material.Density = Convert.ToDouble(addMaterial.textBox3.Text);
-
-            db.Materials.Add(material);
-            db.SaveChanges();
-
+            if (string.IsNullOrEmpty(addMaterial.textBox2.Text))
+            {
+                addMaterial.textBox2.Text = "0";
+            } else if (string.IsNullOrEmpty(addMaterial.textBox3.Text))
+            {
+                addMaterial.textBox3.Text = "0";
+            }
+            else
+            {
+                material.Thicksness = Convert.ToDouble(addMaterial.textBox2.Text);
+                material.Density = Convert.ToDouble(addMaterial.textBox3.Text);
+            }
+           
+            
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(material);
+            if (!Validator.TryValidateObject(material, context, results, true))
+            {
+                foreach (var error in results)
+                {
+                    MessageBox.Show(error.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                db.Materials.Add(material);
+                db.SaveChanges();
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -126,7 +152,7 @@ namespace DefMat_V2._0
             if (dataGridView.SelectedRows.Count > 0)
             {
                 int index = dataGridView.SelectedRows[0].Index;
-                int id = 0;
+                int id;
                 bool converted = Int32.TryParse(dataGridView[0, index].Value.ToString(), out id);
                 if (converted == false)
                     return;

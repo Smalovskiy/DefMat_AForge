@@ -157,14 +157,14 @@ namespace DefMat_V2._0
         {
             iThreshold = sbThreshold.Value;
         }
-        private void GraphsButton_Click(object sender, EventArgs e)
+        private void OpenGraphsFormButton_Click(object sender, EventArgs e)
         {
             GraphsForm graphs = new GraphsForm();
             graphs.Show();
 
         }
 
-        private void ScreenshotsButton_Click(object sender, EventArgs e)
+        private void OpenScreenshotsFormButton_Click(object sender, EventArgs e)
         {
 
             ScreenForm screen = new ScreenForm(BsourceFrame);
@@ -403,7 +403,7 @@ namespace DefMat_V2._0
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void OpenResultsFormButton_Click(object sender, EventArgs e)
         {
            label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].Y - rects[1].Y, 2))) * 0.2645833333333);
 

@@ -65,12 +65,12 @@ namespace DefMat_V2._0
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.GraphsButton = new System.Windows.Forms.Button();
-            this.ScreenshotsButton = new System.Windows.Forms.Button();
+            this.OpenGraphsFormButton = new System.Windows.Forms.Button();
+            this.OpenScreenshotsFormButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.OpenResultsFormButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -407,27 +407,27 @@ namespace DefMat_V2._0
             this.label6.TabIndex = 10;
             this.label6.Text = "Main Image";
             // 
-            // GraphsButton
+            // OpenGraphsFormButton
             // 
-            this.GraphsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.GraphsButton.Location = new System.Drawing.Point(191, 259);
-            this.GraphsButton.Name = "GraphsButton";
-            this.GraphsButton.Size = new System.Drawing.Size(155, 37);
-            this.GraphsButton.TabIndex = 11;
-            this.GraphsButton.Text = "Graphs";
-            this.GraphsButton.UseVisualStyleBackColor = true;
-            this.GraphsButton.Click += new System.EventHandler(this.GraphsButton_Click);
+            this.OpenGraphsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OpenGraphsFormButton.Location = new System.Drawing.Point(191, 259);
+            this.OpenGraphsFormButton.Name = "OpenGraphsFormButton";
+            this.OpenGraphsFormButton.Size = new System.Drawing.Size(155, 37);
+            this.OpenGraphsFormButton.TabIndex = 11;
+            this.OpenGraphsFormButton.Text = "Graphs";
+            this.OpenGraphsFormButton.UseVisualStyleBackColor = true;
+            this.OpenGraphsFormButton.Click += new System.EventHandler(this.OpenScreenshotsFormButton_Click);
             // 
-            // ScreenshotsButton
+            // OpenScreenshotsFormButton
             // 
-            this.ScreenshotsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ScreenshotsButton.Location = new System.Drawing.Point(12, 259);
-            this.ScreenshotsButton.Name = "ScreenshotsButton";
-            this.ScreenshotsButton.Size = new System.Drawing.Size(155, 37);
-            this.ScreenshotsButton.TabIndex = 12;
-            this.ScreenshotsButton.Text = "Screenshots";
-            this.ScreenshotsButton.UseVisualStyleBackColor = true;
-            this.ScreenshotsButton.Click += new System.EventHandler(this.ScreenshotsButton_Click);
+            this.OpenScreenshotsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OpenScreenshotsFormButton.Location = new System.Drawing.Point(12, 259);
+            this.OpenScreenshotsFormButton.Name = "OpenScreenshotsFormButton";
+            this.OpenScreenshotsFormButton.Size = new System.Drawing.Size(155, 37);
+            this.OpenScreenshotsFormButton.TabIndex = 12;
+            this.OpenScreenshotsFormButton.Text = "Screenshots";
+            this.OpenScreenshotsFormButton.UseVisualStyleBackColor = true;
+            this.OpenScreenshotsFormButton.Click += new System.EventHandler(this.OpenScreenshotsFormButton_Click);
             // 
             // label7
             // 
@@ -462,16 +462,16 @@ namespace DefMat_V2._0
             this.label9.Text = "* Выберите две точки!";
             this.label9.Visible = false;
             // 
-            // button1
+            // OpenResultsFormButton
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(191, 302);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(155, 37);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Results";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.OpenResultsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OpenResultsFormButton.Location = new System.Drawing.Point(191, 302);
+            this.OpenResultsFormButton.Name = "OpenResultsFormButton";
+            this.OpenResultsFormButton.Size = new System.Drawing.Size(155, 37);
+            this.OpenResultsFormButton.TabIndex = 16;
+            this.OpenResultsFormButton.Text = "Results";
+            this.OpenResultsFormButton.UseVisualStyleBackColor = true;
+            this.OpenResultsFormButton.Click += new System.EventHandler(this.OpenResultsFormButton_Click);
             // 
             // label10
             // 
@@ -500,12 +500,12 @@ namespace DefMat_V2._0
             this.ClientSize = new System.Drawing.Size(1345, 840);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.OpenResultsFormButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.ScreenshotsButton);
-            this.Controls.Add(this.GraphsButton);
+            this.Controls.Add(this.OpenScreenshotsFormButton);
+            this.Controls.Add(this.OpenGraphsFormButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -572,8 +572,8 @@ namespace DefMat_V2._0
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
-        private System.Windows.Forms.Button GraphsButton;
-        private System.Windows.Forms.Button ScreenshotsButton;
+        private System.Windows.Forms.Button OpenGraphsFormButton;
+        private System.Windows.Forms.Button OpenScreenshotsFormButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ToolStripMenuItem базаДанныхToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialsToolStripMenuItem;
@@ -581,7 +581,7 @@ namespace DefMat_V2._0
         private System.Windows.Forms.ToolStripMenuItem ResultsToolStripMenuItem;
         private System.Windows.Forms.Label label8;
         public System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button OpenResultsFormButton;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
     }
