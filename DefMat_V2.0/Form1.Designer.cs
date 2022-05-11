@@ -86,14 +86,14 @@ namespace DefMat_V2._0
             // 
             this.pictureBox1.Location = new System.Drawing.Point(393, 63);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(737, 432);
+            this.pictureBox1.Size = new System.Drawing.Size(737, 479);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 517);
+            this.pictureBox2.Location = new System.Drawing.Point(12, 573);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(350, 309);
             this.pictureBox2.TabIndex = 1;
@@ -101,7 +101,7 @@ namespace DefMat_V2._0
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(393, 517);
+            this.pictureBox3.Location = new System.Drawing.Point(393, 573);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(353, 309);
             this.pictureBox3.TabIndex = 2;
@@ -109,7 +109,7 @@ namespace DefMat_V2._0
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(779, 517);
+            this.pictureBox4.Location = new System.Drawing.Point(779, 573);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(351, 309);
             this.pictureBox4.TabIndex = 3;
@@ -123,7 +123,7 @@ namespace DefMat_V2._0
             this.базаДанныхToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1345, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1155, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -182,7 +182,7 @@ namespace DefMat_V2._0
             this.toolStripSeparator2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1345, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1155, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -371,7 +371,7 @@ namespace DefMat_V2._0
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(18, 498);
+            this.label3.Location = new System.Drawing.Point(18, 554);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 16);
             this.label3.TabIndex = 7;
@@ -381,7 +381,7 @@ namespace DefMat_V2._0
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(390, 498);
+            this.label4.Location = new System.Drawing.Point(390, 554);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 16);
             this.label4.TabIndex = 8;
@@ -391,7 +391,7 @@ namespace DefMat_V2._0
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(776, 498);
+            this.label5.Location = new System.Drawing.Point(776, 554);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 16);
             this.label5.TabIndex = 9;
@@ -410,18 +410,18 @@ namespace DefMat_V2._0
             // OpenGraphsFormButton
             // 
             this.OpenGraphsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenGraphsFormButton.Location = new System.Drawing.Point(191, 259);
+            this.OpenGraphsFormButton.Location = new System.Drawing.Point(191, 270);
             this.OpenGraphsFormButton.Name = "OpenGraphsFormButton";
             this.OpenGraphsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenGraphsFormButton.TabIndex = 11;
             this.OpenGraphsFormButton.Text = "Graphs";
             this.OpenGraphsFormButton.UseVisualStyleBackColor = true;
-            this.OpenGraphsFormButton.Click += new System.EventHandler(this.OpenScreenshotsFormButton_Click);
+            this.OpenGraphsFormButton.Click += new System.EventHandler(this.OpenGraphsFormButton_Click);
             // 
             // OpenScreenshotsFormButton
             // 
             this.OpenScreenshotsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenScreenshotsFormButton.Location = new System.Drawing.Point(12, 259);
+            this.OpenScreenshotsFormButton.Location = new System.Drawing.Point(12, 270);
             this.OpenScreenshotsFormButton.Name = "OpenScreenshotsFormButton";
             this.OpenScreenshotsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenScreenshotsFormButton.TabIndex = 12;
@@ -465,11 +465,11 @@ namespace DefMat_V2._0
             // OpenResultsFormButton
             // 
             this.OpenResultsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenResultsFormButton.Location = new System.Drawing.Point(191, 302);
+            this.OpenResultsFormButton.Location = new System.Drawing.Point(393, 505);
             this.OpenResultsFormButton.Name = "OpenResultsFormButton";
             this.OpenResultsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenResultsFormButton.TabIndex = 16;
-            this.OpenResultsFormButton.Text = "Results";
+            this.OpenResultsFormButton.Text = "Result";
             this.OpenResultsFormButton.UseVisualStyleBackColor = true;
             this.OpenResultsFormButton.Click += new System.EventHandler(this.OpenResultsFormButton_Click);
             // 
@@ -497,7 +497,7 @@ namespace DefMat_V2._0
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1345, 840);
+            this.ClientSize = new System.Drawing.Size(1155, 891);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.OpenResultsFormButton);
@@ -574,16 +574,16 @@ namespace DefMat_V2._0
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.Button OpenGraphsFormButton;
         private System.Windows.Forms.Button OpenScreenshotsFormButton;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ToolStripMenuItem базаДанныхToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem materialsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExtensionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ResultsToolStripMenuItem;
-        private System.Windows.Forms.Label label8;
         public System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button OpenResultsFormButton;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        protected System.Windows.Forms.Label label7;
+        protected System.Windows.Forms.Label label8;
     }
 }
 

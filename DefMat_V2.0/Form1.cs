@@ -32,7 +32,7 @@ namespace DefMat_V2._0
 
         SobelEdgeDetector edgeFilter = new SobelEdgeDetector();
         Pen pictureboxPen = new Pen(Color.Black, 5);
-        Pen pen = new Pen(Color.Green, 3);
+        Pen greenPen = new Pen(Color.Green, 6);
         AForge.Point center;
         Blob[] blobPoints;
         Rectangle[] rects;
@@ -166,7 +166,6 @@ namespace DefMat_V2._0
 
         private void OpenScreenshotsFormButton_Click(object sender, EventArgs e)
         {
-
             ScreenForm screen = new ScreenForm(BsourceFrame);
             screen.Show();
 
@@ -211,6 +210,8 @@ namespace DefMat_V2._0
             try
             {
                 captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);//Создание эксземпляра класса VideoCapture
+                //captureDevice.VideoResolution = captureDevice.VideoCapabilities[19];
+                captureDevice.VideoResolution = selectResolution(captureDevice);
                 captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);            // обработка события 
                 captureDevice.Start();                                                    //старт потока видео
             }
@@ -219,7 +220,17 @@ namespace DefMat_V2._0
                 MessageBox.Show(ex.Message);                                              //Ошибка
             }
         }
-
+        private static VideoCapabilities selectResolution(VideoCaptureDevice device)
+        {
+            foreach (var cap in device.VideoCapabilities)
+            {
+                if (cap.FrameSize.Height == 480)
+                    return cap;
+                if (cap.FrameSize.Width == 640)
+                    return cap;
+            }
+            return device.VideoCapabilities.Last();
+        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -335,7 +346,7 @@ namespace DefMat_V2._0
             graph = Graphics.FromImage(bitmapSourceImage);                                        //Создание обьекта для рисования
             SimpleShapeChecker shapeChecker = new SimpleShapeChecker();                           //Обьект для обнаружения фигуры
 
-            for (int i = 0; i < blobPoints.Length; i++)                                           
+            for (int i = 0; i < blobPoints.Length; i++)
             {
                 List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);         //Запись в List краевых точек блоба 
                                                                                                   //для последующей проверки
@@ -349,64 +360,81 @@ namespace DefMat_V2._0
                     //string shapeString = "" + shapeChecker.CheckShapeType(edgePoint);
                     int x = (int)center.X;
                     int y = (int)center.Y;
+                    if(pointsX.Count >= 2)
+                    {
+                        graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
+                    }
+                    else
+                    {
+                        graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
+                    }
 
-                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
-         
-                     centroid_X = (int)blobPoints[i].CenterOfGravity.X;
-                     centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
+                    centroid_X = (int)blobPoints[i].CenterOfGravity.X;
+                    centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
 
                     graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);
 
                     int deg_x = centroid_X - pictureBox1.Size.Width;
                     int deg_y = pictureBox1.Size.Height - centroid_Y;
-                    
-                }
+
+                }   
             }
+            
+            //for (int i = 0; i < pointsX.Count; i++)
+            //{
+            //    if (pointsX.Count > 0)
+            //    {
+            //        graph.DrawEllipse(greenPen, pointsX[i], pointsY[i], radius * 2, radius * 2);
+
+            //    }
+                
+            //}
+
             return bitmapSourceImage;
         }
         #endregion
 
-
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (rects.Length >= 2)
+            if(rects is null)
             {
-                label9.Show();
+                MessageBox.Show("Ни одной точки не было найдено!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            Pen greenPen = new Pen(Color.Green, 5);
-            for (int i = 0; i < rects.Length; i++)
+            else
             {
-
-                clickInImage = rects[i].Contains(e.Location);
-                
-                if (clickInImage == true)
+               
+                for (int i = 0; i < rects.Length; i++)
                 {
-                   
-                    pointsX.Add((rects[i].X));
-                    pointsY.Add((rects[i].Y));
-                    
-                    // graph.DrawEllipse(greenPen, rects[i].X, rects[i].Y, radius * 2, radius * 2);
-                    // MessageBox.Show("Centr circle:" + "X:" + rects[i].X + "Y:" + rects[i].Y);
+
+                    clickInImage = rects[i].Contains(e.Location);
+
+                    if (clickInImage == true)
+                    {
+                        pointsX.Add((rects[i].X));
+                        pointsY.Add((rects[i].Y));
+                    }
+                    if (pointsX.Count == 2)
+                    {
+                        label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * 0.2645833333333);
+                        label9.Hide();
+                    }
                 }
-                if (pointsX.Count == 2)
-                {
-                    label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * 0.2645833333333);
-                    label9.Hide();
-                }
-
-
-
-                //if(pointsX.Count == 4)
-                //{
-                //    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[2] - pointsX[3], 2) + Math.Pow(pointsY[2] - pointsY[3], 2))) * 0.2645833333333);
-                //}
-            }
+            } 
         }
-
         private void OpenResultsFormButton_Click(object sender, EventArgs e)
         {
-           label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].Y - rects[1].Y, 2))) * 0.2645833333333);
-
+            if (String.IsNullOrEmpty(label7.Text))
+            {
+                MessageBox.Show("Точки не были выбраны!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].Y - rects[1].Y, 2))) * 0.2645833333333);
+                Extensions extensions = new Extensions();
+                extensions.Longation = Math.Round(Convert.ToDouble(label8.Text) - Convert.ToDouble(label7.Text),3);
+                db.Extensions.Add(extensions);
+                db.SaveChanges();
+            }
         }
     }
 }
