@@ -40,7 +40,14 @@ namespace DefMat_V2._0
         private void Screen_Load(object sender, EventArgs e)
         {
             filename = $"WCVC_{DateTime.Now.Day}_{DateTime.Now.Month}_{DateTime.Now.Year}_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.jpg";
-            ScreenPB.Image = image;
+            if(image is null)
+            {
+                MessageBox.Show("Убедитесь, что изображение выведено на экран", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                ScreenPB.Image = image;
+            }
         }
 
         private void SaveScreenButton_Click(object sender, EventArgs e)

@@ -106,6 +106,9 @@ namespace DefMat_V2._0
                     pictureBox3.Image = null;
                     pictureBox4.Image.Dispose();
                     pictureBox4.Image = null;
+                    rbRed.Checked = true;
+                    label7.Text = null;
+                    label8.Text = null;
                 }
             }
             catch (Exception ex)
@@ -215,9 +218,9 @@ namespace DefMat_V2._0
                 captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);            // обработка события 
                 captureDevice.Start();                                                    //старт потока видео
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);                                              //Ошибка
+                MessageBox.Show("Выберите видеоустройство","Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);                                              //Ошибка
             }
         }
         private static VideoCapabilities selectResolution(VideoCaptureDevice device)
@@ -360,14 +363,16 @@ namespace DefMat_V2._0
                     //string shapeString = "" + shapeChecker.CheckShapeType(edgePoint);
                     int x = (int)center.X;
                     int y = (int)center.Y;
-                    if(pointsX.Count >= 2)
-                    {
-                        graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
-                    }
-                    else
-                    {
-                        graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
-                    }
+
+                  if (pointsX.Count >= 2)
+                  {     
+                      graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
+                  }
+                  else
+                  {
+                      graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);       //Рисуем найденные окружности
+                  }      
+                    
 
                     centroid_X = (int)blobPoints[i].CenterOfGravity.X;
                     centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
@@ -379,16 +384,6 @@ namespace DefMat_V2._0
 
                 }   
             }
-            
-            //for (int i = 0; i < pointsX.Count; i++)
-            //{
-            //    if (pointsX.Count > 0)
-            //    {
-            //        graph.DrawEllipse(greenPen, pointsX[i], pointsY[i], radius * 2, radius * 2);
-
-            //    }
-                
-            //}
 
             return bitmapSourceImage;
         }
@@ -398,7 +393,7 @@ namespace DefMat_V2._0
         {
             if(rects is null)
             {
-                MessageBox.Show("Ни одной точки не было найдено!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ни одной точки не было найдено", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -425,7 +420,7 @@ namespace DefMat_V2._0
         {
             if (String.IsNullOrEmpty(label7.Text))
             {
-                MessageBox.Show("Точки не были выбраны!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Точки не были выбраны", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
