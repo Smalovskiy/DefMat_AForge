@@ -83,8 +83,10 @@ namespace DefMat_V2._0
             if (rbBlue.Checked == true)
             {
                 iColorMode = 2;
-                sbRadius.Value = 180;
+                sbRadius.Value = 420;
+                sbThreshold.Value = 250;
                 iRadius = sbRadius.Value;
+                iThreshold = sbThreshold.Value;
 
                 sbRedColor.Value = 30;
                 sbGreenColor.Value = 30;
@@ -126,8 +128,10 @@ namespace DefMat_V2._0
             if (rbGreen.Checked == true)
             {
                 iColorMode = 3;
-                sbRadius.Value = 180;
+                sbRadius.Value = 420;
+                sbThreshold.Value = 250;
                 iRadius = sbRadius.Value;
+                iThreshold = sbThreshold.Value;
 
                 sbRedColor.Value = 5;
                 sbGreenColor.Value = 240;
@@ -149,8 +153,10 @@ namespace DefMat_V2._0
             if (rbRed.Checked == true)
             {
                 iColorMode = 1;
-                sbRadius.Value = 100;
+                sbRadius.Value = 420;
+                sbThreshold.Value = 250;
                 iRadius = sbRadius.Value;
+                iThreshold = sbThreshold.Value;
 
                 sbRedColor.Value = 220;
                 sbGreenColor.Value = 30;
