@@ -69,10 +69,11 @@ namespace DefMat_V2._0
             this.OpenScreenshotsFormButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.OpenResultsFormButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -80,20 +81,22 @@ namespace DefMat_V2._0
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(393, 63);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 390);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(737, 479);
+            this.pictureBox1.Size = new System.Drawing.Size(640, 480);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 573);
+            this.pictureBox2.Location = new System.Drawing.Point(948, 52);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(350, 309);
             this.pictureBox2.TabIndex = 1;
@@ -101,15 +104,15 @@ namespace DefMat_V2._0
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(393, 573);
+            this.pictureBox3.Location = new System.Drawing.Point(658, 389);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(353, 309);
+            this.pictureBox3.Size = new System.Drawing.Size(640, 480);
             this.pictureBox3.TabIndex = 2;
             this.pictureBox3.TabStop = false;
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(779, 573);
+            this.pictureBox4.Location = new System.Drawing.Point(567, 52);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(351, 309);
             this.pictureBox4.TabIndex = 3;
@@ -123,7 +126,7 @@ namespace DefMat_V2._0
             this.базаДанныхToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1155, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1324, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -182,7 +185,7 @@ namespace DefMat_V2._0
             this.toolStripSeparator2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1155, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1324, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -371,7 +374,7 @@ namespace DefMat_V2._0
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(18, 554);
+            this.label3.Location = new System.Drawing.Point(945, 33);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 16);
             this.label3.TabIndex = 7;
@@ -381,7 +384,7 @@ namespace DefMat_V2._0
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(390, 554);
+            this.label4.Location = new System.Drawing.Point(655, 370);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 16);
             this.label4.TabIndex = 8;
@@ -391,7 +394,7 @@ namespace DefMat_V2._0
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(776, 554);
+            this.label5.Location = new System.Drawing.Point(564, 33);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 16);
             this.label5.TabIndex = 9;
@@ -401,7 +404,7 @@ namespace DefMat_V2._0
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(390, 44);
+            this.label6.Location = new System.Drawing.Point(9, 371);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(78, 16);
             this.label6.TabIndex = 10;
@@ -410,7 +413,7 @@ namespace DefMat_V2._0
             // OpenGraphsFormButton
             // 
             this.OpenGraphsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenGraphsFormButton.Location = new System.Drawing.Point(191, 270);
+            this.OpenGraphsFormButton.Location = new System.Drawing.Point(191, 278);
             this.OpenGraphsFormButton.Name = "OpenGraphsFormButton";
             this.OpenGraphsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenGraphsFormButton.TabIndex = 11;
@@ -421,7 +424,7 @@ namespace DefMat_V2._0
             // OpenScreenshotsFormButton
             // 
             this.OpenScreenshotsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenScreenshotsFormButton.Location = new System.Drawing.Point(12, 270);
+            this.OpenScreenshotsFormButton.Location = new System.Drawing.Point(12, 278);
             this.OpenScreenshotsFormButton.Name = "OpenScreenshotsFormButton";
             this.OpenScreenshotsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenScreenshotsFormButton.TabIndex = 12;
@@ -434,7 +437,7 @@ namespace DefMat_V2._0
             this.label7.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(444, 69);
+            this.label7.Location = new System.Drawing.Point(63, 396);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(109, 36);
             this.label7.TabIndex = 13;
@@ -444,28 +447,15 @@ namespace DefMat_V2._0
             this.label8.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(604, 69);
+            this.label8.Location = new System.Drawing.Point(223, 396);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(109, 36);
             this.label8.TabIndex = 14;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.SystemColors.Control;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(918, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(212, 24);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "* Выберите две точки!";
-            this.label9.Visible = false;
-            // 
             // OpenResultsFormButton
             // 
             this.OpenResultsFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenResultsFormButton.Location = new System.Drawing.Point(393, 505);
+            this.OpenResultsFormButton.Location = new System.Drawing.Point(12, 832);
             this.OpenResultsFormButton.Name = "OpenResultsFormButton";
             this.OpenResultsFormButton.Size = new System.Drawing.Size(155, 37);
             this.OpenResultsFormButton.TabIndex = 16;
@@ -477,7 +467,7 @@ namespace DefMat_V2._0
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(399, 69);
+            this.label10.Location = new System.Drawing.Point(18, 396);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(43, 18);
             this.label10.TabIndex = 17;
@@ -487,21 +477,39 @@ namespace DefMat_V2._0
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(559, 69);
+            this.label11.Location = new System.Drawing.Point(178, 396);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 18);
             this.label11.TabIndex = 18;
             this.label11.Text = "Final:";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.numericUpDown1);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.groupBox2.Location = new System.Drawing.Point(352, 63);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(199, 190);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Points";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(7, 25);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(141, 22);
+            this.numericUpDown1.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1155, 891);
+            this.ClientSize = new System.Drawing.Size(1324, 891);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.OpenResultsFormButton);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.OpenScreenshotsFormButton);
@@ -534,6 +542,8 @@ namespace DefMat_V2._0
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -578,12 +588,13 @@ namespace DefMat_V2._0
         private System.Windows.Forms.ToolStripMenuItem materialsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExtensionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ResultsToolStripMenuItem;
-        public System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button OpenResultsFormButton;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         protected System.Windows.Forms.Label label7;
         protected System.Windows.Forms.Label label8;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 

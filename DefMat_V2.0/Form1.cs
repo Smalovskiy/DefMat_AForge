@@ -31,6 +31,8 @@ namespace DefMat_V2._0
         EuclideanColorFiltering colorFilter = new EuclideanColorFiltering();
 
         SobelEdgeDetector edgeFilter = new SobelEdgeDetector();
+        Font font = new Font("Times New Roman", 14, FontStyle.Bold);
+        SolidBrush brush = new SolidBrush(Color.Black);
         Pen pictureboxPen = new Pen(Color.Black, 5);
         Pen greenPen = new Pen(Color.Green, 6);
         Pen greenLine = new Pen(Color.Green, 2);
@@ -56,6 +58,7 @@ namespace DefMat_V2._0
         {
             InitializeComponent();
             db = new DefMatContext();
+            numericUpDown1.Value = 2;
         }
         #region Components
         private void sbGreenColor_Scroll(object sender, ScrollEventArgs e)
@@ -95,27 +98,34 @@ namespace DefMat_V2._0
             }
         }
 
-
+        private void CloseCapture()
+        {
+            if (captureDevice != null)
+            {
+                captureDevice.Stop();
+                captureDevice = null;
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+                pictureBox2.Image.Dispose();
+                pictureBox2.Image = null;
+                pictureBox3.Image.Dispose();
+                pictureBox3.Image = null;
+                pictureBox4.Image.Dispose();
+                pictureBox4.Image = null;
+                rbRed.Checked = true;
+                label7.Text = null;
+                label8.Text = null;
+                pointsX.Clear();
+                pointsY.Clear();
+                
+            }
+        }
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             try
             {
-                if (captureDevice != null)
-                {
-                    captureDevice.Stop();
-                    captureDevice = null;
-                    pictureBox1.Image.Dispose();
-                    pictureBox1.Image = null;
-                    pictureBox2.Image.Dispose();
-                    pictureBox2.Image = null;
-                    pictureBox3.Image.Dispose();
-                    pictureBox3.Image = null;
-                    pictureBox4.Image.Dispose();
-                    pictureBox4.Image = null;
-                    rbRed.Checked = true;
-                    label7.Text = null;
-                    label8.Text = null;
-                }
+              CloseCapture();
+ 
             }
             catch (Exception ex)
             {
@@ -284,16 +294,6 @@ namespace DefMat_V2._0
 
         }
 
-        //private double FindCamDistance(int pixel)
-        //{
-        //    double distance;
-        //    double objectWidth = 10, focalLength = 604.8;
-
-        //    distance = (objectWidth * focalLength) / pixel;
-        //    return distance;
-
-        //}
-
         #region BlobDetection
         private Bitmap BlobDetection(Bitmap bitmapSourceImage)                            //Метод обнаружения обьектов 
         {     
@@ -347,9 +347,10 @@ namespace DefMat_V2._0
 
             BlobCounter blobCounter = new BlobCounter                                             //обьект для подсчёта Blobs 
             {                                                                                     //c определенными параметрами
-                MinWidth = 10,
-                MinHeight = 10,
+                MinWidth = 20,
+                MinHeight = 20,
                 FilterBlobs = true
+                
             };
 
             blobCounter.ProcessImage(bitmapBinaryImage);                                          //Подсчёт неообработанных изображений
@@ -365,11 +366,11 @@ namespace DefMat_V2._0
 
                 if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     //Елси круг то..
                 {
-                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 10, 10); //рисуем эллипс в пределах pB
-
+                    
+                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 5, 5);
                     rects = blobCounter.GetObjectsRectangles();
                     Pen pen = new Pen(Color.Red, ipenWidth);
-                    //string shapeString = "" + shapeChecker.CheckShapeType(edgePoint);
+                    
                     int x = (int)center.X;
                     int y = (int)center.Y;
 
@@ -380,49 +381,21 @@ namespace DefMat_V2._0
 
                     graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);
 
-                    int deg_x = centroid_X - pictureBox1.Size.Width;
-                    int deg_y = pictureBox1.Size.Height - centroid_Y;
+                    graph.DrawString(("X:") + rects[i].X.ToString(), font, brush, x, y + 10);
+                    graph.DrawString(("Y:") + rects[i].Y.ToString(), font, brush, x, y + 30);
+
+                }
+                try
+                {
+                    MarkerPoints();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                    //CloseCapture();
 
                 }
                 
-
-
-
-                if (pointsX.Count == 2)
-                {
-                    cr1_X = blobPoints[0].CenterOfGravity.X;
-                    cr1_Y = blobPoints[0].CenterOfGravity.Y;
-                    cr2_X = blobPoints[1].CenterOfGravity.X;
-                    cr2_Y = blobPoints[1].CenterOfGravity.Y;
-
-
-                    graph.DrawEllipse(greenPen, cr1_X - radius, cr1_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr2_X - radius, cr2_Y - radius, radius * 2, radius * 2); 
-                    graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
-                }
-                else if(pointsX.Count == 3)
-                {
-                    cr3_X = blobPoints[2].CenterOfGravity.X;
-                    cr3_Y = blobPoints[2].CenterOfGravity.Y;
-                    graph.DrawEllipse(greenPen, cr1_X - radius, cr1_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr2_X - radius, cr2_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr3_X - radius, cr3_Y - radius, radius * 2, radius * 2);
-                    graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
-                    graph.DrawLine(greenLine, cr2_X, cr2_Y, cr3_X, cr3_Y);
-
-                }
-                else if (pointsX.Count == 4)
-                {
-                    cr4_X = blobPoints[3].CenterOfGravity.X;
-                    cr4_Y = blobPoints[3].CenterOfGravity.Y;
-                    graph.DrawEllipse(greenPen, cr1_X - radius, cr1_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr2_X - radius, cr2_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr3_X - radius, cr3_Y - radius, radius * 2, radius * 2);
-                    graph.DrawEllipse(greenPen, cr4_X - radius, cr4_Y - radius, radius * 2, radius * 2);
-                    graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
-                    graph.DrawLine(greenLine, cr2_X, cr2_Y, cr3_X, cr3_Y);
-                    graph.DrawLine(greenLine, cr3_X, cr3_Y, cr4_X, cr4_Y);
-                }
 
             }
 
@@ -470,6 +443,46 @@ namespace DefMat_V2._0
                 extensions.Longation = Math.Round(Convert.ToDouble(label8.Text) - Convert.ToDouble(label7.Text),3);
                 db.Extensions.Add(extensions);
                 db.SaveChanges();
+            }
+        }
+        private void MarkerPoints()
+        {
+            if (numericUpDown1.Value == 2 && blobPoints.Length >= 2 && pointsX.Count == 2)
+            {
+                cr1_X = blobPoints[0].CenterOfGravity.X;
+                cr1_Y = blobPoints[0].CenterOfGravity.Y;
+                cr2_X = blobPoints[1].CenterOfGravity.X;
+                cr2_Y = blobPoints[1].CenterOfGravity.Y;
+                graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+                graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
+
+            }
+            else if (numericUpDown1.Value == 3 && blobPoints.Length >= 3 && pointsX.Count == 3)
+            {
+                cr1_X = blobPoints[0].CenterOfGravity.X;
+                cr1_Y = blobPoints[0].CenterOfGravity.Y;
+                cr2_X = blobPoints[1].CenterOfGravity.X;
+                cr2_Y = blobPoints[1].CenterOfGravity.Y;
+                cr3_X = blobPoints[2].CenterOfGravity.X;
+                cr3_Y = blobPoints[2].CenterOfGravity.Y;
+                graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+                graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
+                graph.DrawLine(greenLine, cr2_X, cr2_Y, cr3_X, cr3_Y);
+
+            }
+            else if (numericUpDown1.Value == 4 && blobPoints.Length >= 4 && pointsX.Count == 4)
+            {
+                cr1_X = blobPoints[0].CenterOfGravity.X;
+                cr1_Y = blobPoints[0].CenterOfGravity.Y;
+                cr2_X = blobPoints[1].CenterOfGravity.X;
+                cr2_Y = blobPoints[1].CenterOfGravity.Y;
+                cr3_X = blobPoints[2].CenterOfGravity.X;
+                cr3_Y = blobPoints[2].CenterOfGravity.Y;
+                cr4_X = blobPoints[3].CenterOfGravity.X;
+                cr4_Y = blobPoints[3].CenterOfGravity.Y;
+                graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+                graph.DrawLine(greenLine, cr1_X, cr1_Y, cr4_X, cr4_Y);
+                graph.DrawLine(greenLine, cr2_X, cr2_Y, cr3_X, cr3_Y);
             }
         }
     }
