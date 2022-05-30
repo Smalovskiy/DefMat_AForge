@@ -52,6 +52,7 @@ namespace DefMat_V2._0
         int iColorMode = 1, iRedValue = 220, iGreenValue = 30, iBlueValue = 30;
         bool blurFlag = false;
         float cr1_X, cr1_Y, cr2_X, cr2_Y, cr3_X, cr3_Y, cr4_X, cr4_Y;
+        string p;
 
         #endregion
         public Form1()
@@ -59,6 +60,7 @@ namespace DefMat_V2._0
             InitializeComponent();
             db = new DefMatContext();
             numericUpDown1.Value = 2;
+            textBox1.Text = "0,2645833333333";
         }
         #region Components
         private void sbGreenColor_Scroll(object sender, ScrollEventArgs e)
@@ -115,6 +117,10 @@ namespace DefMat_V2._0
                 rbRed.Checked = true;
                 label7.Text = null;
                 label8.Text = null;
+                label18.Text = null;
+                label17.Text = null;
+                label13.Text = null;
+                label14.Text = null;
                 pointsX.Clear();
                 pointsY.Clear();
                 
@@ -179,6 +185,61 @@ namespace DefMat_V2._0
         {
             iThreshold = sbThreshold.Value;
         }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            if(numericUpDown1.Value < 2 || numericUpDown1.Value > 4)
+            {
+                MessageBox.Show("Допустимый дипазон значений 2-4", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numericUpDown1.Value = 2;
+            }
+            else
+            {
+                if (numericUpDown1.Value == 3)
+                {
+                    label9.Show();
+                    label12.Show();
+                    label13.Show();
+                    label14.Show();
+                    label7.Show();
+                    label8.Show();
+                    label10.Show();
+                    label11.Show();
+                    label15.Hide();
+                    label16.Hide();
+                    label17.Hide();
+                    label18.Hide();
+                }
+                else if (numericUpDown1.Value == 4)
+                {
+                    label7.Hide();
+                    label8.Hide();
+                    label10.Hide();
+                    label11.Hide();
+                    label15.Show();
+                    label16.Show();
+                    label17.Show();
+                    label18.Show();
+                }
+                else
+                {
+                    label7.Show();
+                    label8.Show();
+                    label10.Show();
+                    label11.Show();
+                    label9.Hide();
+                    label12.Hide();
+                    label13.Hide();
+                    label14.Hide();
+                    label15.Hide();
+                    label16.Hide();
+                    label17.Hide();
+                    label18.Hide();
+                }
+            }
+            
+        }
+
         private void OpenGraphsFormButton_Click(object sender, EventArgs e)
         {
             GraphsForm graphs = new GraphsForm();
@@ -333,7 +394,7 @@ namespace DefMat_V2._0
 
             if (blurFlag == true)                                                                 //если блюр вкл
             {
-                GaussianBlur blurfilter = new GaussianBlur(1.5);                                  //Размытие по Гаусу
+                GaussianBlur blurfilter = new GaussianBlur(0.7);                                  //Размытие по Гаусу
                 bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);                              
                 bitmapEdgeImage = edgeFilter.Apply(bitmapBlurImage);
             }
@@ -366,7 +427,7 @@ namespace DefMat_V2._0
 
                 if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     //Елси круг то..
                 {
-                    
+
                     graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 5, 5);
                     rects = blobCounter.GetObjectsRectangles();
                     Pen pen = new Pen(Color.Red, ipenWidth);
@@ -381,8 +442,9 @@ namespace DefMat_V2._0
 
                     graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);
 
-                    graph.DrawString(("X:") + rects[i].X.ToString(), font, brush, x, y + 10);
-                    graph.DrawString(("Y:") + rects[i].Y.ToString(), font, brush, x, y + 30);
+                    graph.DrawString(("P")+ Convert.ToString(i + 1), font, brush, x, y + 15);
+                    graph.DrawString(("X:") + rects[i].X.ToString(), font, brush, x, y + 35);
+                    graph.DrawString(("Y:") + rects[i].Y.ToString(), font, brush, x, y + 55);
 
                 }
                 try
@@ -424,9 +486,16 @@ namespace DefMat_V2._0
                     }
                 }
 
-                if (pointsX.Count == 2)
+                if (pointsX.Count == 2 )
                 {
                     label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * 0.2645833333333);
+                } else if(pointsX.Count == 3)
+                {
+                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * 0.2645833333333);
+                } else if(pointsX.Count == 4 && numericUpDown1.Value == 4)
+                {
+                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * 0.2645833333333);
+                    label17.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[3], 2) + Math.Pow(pointsY[0] - pointsY[3], 2))) * 0.2645833333333);
                 }
             }
         }
@@ -438,13 +507,29 @@ namespace DefMat_V2._0
             }
             else
             {
-                label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(rects[0].X - rects[1].X, 2) + Math.Pow(rects[0].Y - rects[1].Y, 2))) * 0.2645833333333);
-                Extensions extensions = new Extensions();
-                extensions.Longation = Math.Round(Convert.ToDouble(label8.Text) - Convert.ToDouble(label7.Text),3);
-                db.Extensions.Add(extensions);
-                db.SaveChanges();
+                if (pointsX.Count == 2)
+                {
+                    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr2_X, 2) + Math.Pow(cr1_Y - cr2_Y, 2))) * 0.2645833333333);
+                } else if(pointsX.Count == 3)
+                {
+                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * 0.2645833333333);
+
+                }
+                else if (pointsX.Count == 4 && numericUpDown1.Value == 4)
+                {
+                    label18.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * 0.2645833333333);
+                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr4_X, 2) + Math.Pow(cr1_Y - cr4_Y, 2))) * 0.2645833333333);
+
+                }
+
+
+                //Extensions extensions = new Extensions();
+                //extensions.Longation = Math.Round(Convert.ToDouble(label8.Text) - Convert.ToDouble(label7.Text),3);
+                //db.Extensions.Add(extensions);
+                //db.SaveChanges();
             }
         }
+
         private void MarkerPoints()
         {
             if (numericUpDown1.Value == 2 && blobPoints.Length >= 2 && pointsX.Count == 2)
