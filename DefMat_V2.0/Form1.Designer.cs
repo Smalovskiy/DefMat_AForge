@@ -73,6 +73,9 @@ namespace DefMat_V2._0
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -82,9 +85,6 @@ namespace DefMat_V2._0
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitter2 = new System.Windows.Forms.Splitter();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -450,7 +450,7 @@ namespace DefMat_V2._0
             this.label7.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(453, 70);
+            this.label7.Location = new System.Drawing.Point(453, 63);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(109, 33);
             this.label7.TabIndex = 13;
@@ -460,7 +460,7 @@ namespace DefMat_V2._0
             this.label8.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(453, 107);
+            this.label8.Location = new System.Drawing.Point(453, 100);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(109, 33);
             this.label8.TabIndex = 14;
@@ -480,7 +480,7 @@ namespace DefMat_V2._0
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(353, 74);
+            this.label10.Location = new System.Drawing.Point(353, 67);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(94, 18);
             this.label10.TabIndex = 17;
@@ -490,7 +490,7 @@ namespace DefMat_V2._0
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(353, 111);
+            this.label11.Location = new System.Drawing.Point(353, 104);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(94, 18);
             this.label11.TabIndex = 18;
@@ -509,6 +509,31 @@ namespace DefMat_V2._0
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Points";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(65, 52);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(141, 22);
+            this.textBox1.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(8, 52);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 16);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "Высота";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(7, 23);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(52, 16);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "Кол-во";
             // 
             // numericUpDown1
             // 
@@ -562,7 +587,7 @@ namespace DefMat_V2._0
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.Location = new System.Drawing.Point(353, 256);
+            this.label15.Location = new System.Drawing.Point(353, 267);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(94, 18);
             this.label15.TabIndex = 27;
@@ -573,7 +598,7 @@ namespace DefMat_V2._0
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(353, 220);
+            this.label16.Location = new System.Drawing.Point(352, 227);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(94, 18);
             this.label16.TabIndex = 26;
@@ -585,7 +610,7 @@ namespace DefMat_V2._0
             this.label17.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label17.ForeColor = System.Drawing.Color.Black;
-            this.label17.Location = new System.Drawing.Point(453, 216);
+            this.label17.Location = new System.Drawing.Point(453, 222);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(109, 31);
             this.label17.TabIndex = 25;
@@ -596,36 +621,11 @@ namespace DefMat_V2._0
             this.label18.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label18.ForeColor = System.Drawing.Color.Black;
-            this.label18.Location = new System.Drawing.Point(453, 252);
+            this.label18.Location = new System.Drawing.Point(453, 263);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(109, 33);
             this.label18.TabIndex = 24;
             this.label18.Visible = false;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(7, 23);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(52, 16);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "Кол-во";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(8, 52);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(56, 16);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "Высота";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(65, 52);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(141, 22);
-            this.textBox1.TabIndex = 3;
             // 
             // splitter1
             // 

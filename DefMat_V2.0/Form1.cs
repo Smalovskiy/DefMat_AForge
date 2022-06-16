@@ -52,6 +52,7 @@ namespace DefMat_V2._0
         int iColorMode = 1, iRedValue = 220, iGreenValue = 30, iBlueValue = 30;
         bool blurFlag = false;
         float cr1_X, cr1_Y, cr2_X, cr2_Y, cr3_X, cr3_Y, cr4_X, cr4_Y;
+        double longat = 0.264583;
         string p;
 
         #endregion
@@ -288,15 +289,14 @@ namespace DefMat_V2._0
         #endregion
        
 
-        private void SrartCameras(int deviceindex)                                        //Метод выбора камеры из списка доступных
+        private void SrartCameras(int deviceindex)                                        
         {
             try
             {
-                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);//Создание эксземпляра класса VideoCapture
-                //captureDevice.VideoResolution = captureDevice.VideoCapabilities[19];
+                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);
                 captureDevice.VideoResolution = selectResolution(captureDevice);
-                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);            // обработка события 
-                captureDevice.Start();                                                    //старт потока видео
+                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);             
+                captureDevice.Start();                                                    
             }
             catch (Exception)
             {
@@ -345,20 +345,20 @@ namespace DefMat_V2._0
             }
         }
 
-        private void get_Frame(object sender, NewFrameEventArgs eventArgs)                // Метод захвата изображения 
+        private void get_Frame(object sender, NewFrameEventArgs eventArgs)                
         {
-            BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                               // Обьект Bitmap изображения
-            pictureBox1.Image = BlobDetection(BsourceFrame);                              // Главное изображение 
-            pictureBox2.Image = bitmapEdgeImage;                                          // pB2 - pB4 вспомогательное изображение 
+            BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                               
+            pictureBox1.Image = BlobDetection(BsourceFrame);                              
+            pictureBox2.Image = bitmapEdgeImage;                                          
             pictureBox3.Image = bitmapBinaryImage;
             pictureBox4.Image = colorFilterImage;
 
         }
 
         #region BlobDetection
-        private Bitmap BlobDetection(Bitmap bitmapSourceImage)                            //Метод обнаружения обьектов 
+        private Bitmap BlobDetection(Bitmap bitmapSourceImage)                           
         {     
-            switch (iColorMode)                                                           //Конструкция для переключения цветовой палитры
+            switch (iColorMode)                                                           
             {
                 case 1:
                     iRedValue = sbRedColor.Value;
@@ -389,43 +389,43 @@ namespace DefMat_V2._0
                     break;
             }
 
-            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);                          //Градации серого изображения
-            bitmapGreyImage = grayscale.Apply(colorFilterImage);                                  // Создание бинарного изображения в сером фильтре
+            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);                          
+            bitmapGreyImage = grayscale.Apply(colorFilterImage);                                 
 
-            if (blurFlag == true)                                                                 //если блюр вкл
+            if (blurFlag == true)                                                                 
             {
-                GaussianBlur blurfilter = new GaussianBlur(0.7);                                  //Размытие по Гаусу
+                GaussianBlur blurfilter = new GaussianBlur(0.7);                                  
                 bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);                              
                 bitmapEdgeImage = edgeFilter.Apply(bitmapBlurImage);
             }
-            else if (blurFlag == false)                                                           //если блюр выкл
+            else if (blurFlag == false)                                                           
             {
-                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);                              //дефолт
+                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);                              
             }
 
-            Threshold threshold = new Threshold(iThreshold);                                      //обьект для бинаризации изображения с порогом
+            Threshold threshold = new Threshold(iThreshold);                                      
             bitmapBinaryImage = threshold.Apply(bitmapEdgeImage);                                
 
-            BlobCounter blobCounter = new BlobCounter                                             //обьект для подсчёта Blobs 
-            {                                                                                     //c определенными параметрами
+            BlobCounter blobCounter = new BlobCounter                                             
+            {                                                                                     
                 MinWidth = 20,
                 MinHeight = 20,
                 FilterBlobs = true
                 
             };
 
-            blobCounter.ProcessImage(bitmapBinaryImage);                                          //Подсчёт неообработанных изображений
+            blobCounter.ProcessImage(bitmapBinaryImage);                                          
 
-            blobPoints = blobCounter.GetObjectsInformation();                                     //Создание массива из необработанных обьектов
-            graph = Graphics.FromImage(bitmapSourceImage);                                        //Создание обьекта для рисования
-            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();                           //Обьект для обнаружения фигуры
+            blobPoints = blobCounter.GetObjectsInformation();                                    
+            graph = Graphics.FromImage(bitmapSourceImage);                                        
+            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();                          
 
             for (int i = 0; i < blobPoints.Length; i++)
             {
-                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);         //Запись в List краевых точек блоба 
-                                                                                                  //для последующей проверки
+                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);         
+                                                                                                  
 
-                if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     //Елси круг то..
+                if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     
                 {
 
                     graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 5, 5);
@@ -435,7 +435,7 @@ namespace DefMat_V2._0
                     int x = (int)center.X;
                     int y = (int)center.Y;
 
-                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2); //Рисуем найденные окружности
+                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
 
                     centroid_X = (int)blobPoints[i].CenterOfGravity.X;
                     centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
@@ -447,6 +447,7 @@ namespace DefMat_V2._0
                     graph.DrawString(("Y:") + rects[i].Y.ToString(), font, brush, x, y + 55);
 
                 }
+
                 try
                 {
                     MarkerPoints();
@@ -488,14 +489,14 @@ namespace DefMat_V2._0
 
                 if (pointsX.Count == 2 )
                 {
-                    label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * 0.2645833333333);
+                    label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * longat);
                 } else if(pointsX.Count == 3)
                 {
-                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * 0.2645833333333);
+                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * longat);
                 } else if(pointsX.Count == 4 && numericUpDown1.Value == 4)
                 {
-                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * 0.2645833333333);
-                    label17.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[3], 2) + Math.Pow(pointsY[0] - pointsY[3], 2))) * 0.2645833333333);
+                    label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * longat);
+                    label17.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[3], 2) + Math.Pow(pointsY[0] - pointsY[3], 2))) * longat);
                 }
             }
         }
@@ -509,16 +510,17 @@ namespace DefMat_V2._0
             {
                 if (pointsX.Count == 2)
                 {
-                    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr2_X, 2) + Math.Pow(cr1_Y - cr2_Y, 2))) * 0.2645833333333);
+                    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr2_X, 2) + Math.Pow(cr1_Y - cr2_Y, 2))) * longat);
                 } else if(pointsX.Count == 3)
                 {
-                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * 0.2645833333333);
+                    label8.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr2_X, 2) + Math.Pow(cr1_Y - cr2_Y, 2))) * longat);
+                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * longat);
 
                 }
                 else if (pointsX.Count == 4 && numericUpDown1.Value == 4)
                 {
-                    label18.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * 0.2645833333333);
-                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr4_X, 2) + Math.Pow(cr1_Y - cr4_Y, 2))) * 0.2645833333333);
+                    label13.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr2_X - cr3_X, 2) + Math.Pow(cr2_Y - cr3_Y, 2))) * longat);
+                    label18.Text = Convert.ToString((Math.Sqrt(Math.Pow(cr1_X - cr4_X, 2) + Math.Pow(cr1_Y - cr4_Y, 2))) * longat);
 
                 }
 
@@ -529,25 +531,28 @@ namespace DefMat_V2._0
                 //db.SaveChanges();
             }
         }
-
+               
         private void MarkerPoints()
         {
-            if (numericUpDown1.Value == 2 && blobPoints.Length >= 2 && pointsX.Count == 2)
+            if (blobPoints.Length >= 2)
             {
                 cr1_X = blobPoints[0].CenterOfGravity.X;
                 cr1_Y = blobPoints[0].CenterOfGravity.Y;
                 cr2_X = blobPoints[1].CenterOfGravity.X;
                 cr2_Y = blobPoints[1].CenterOfGravity.Y;
+            }
+            
+
+            if (numericUpDown1.Value == 2 && blobPoints.Length >= 2 && pointsX.Count == 2)
+            {
+                
                 graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
                 graph.DrawLine(greenLine, cr1_X, cr1_Y, cr2_X, cr2_Y);
 
             }
             else if (numericUpDown1.Value == 3 && blobPoints.Length >= 3 && pointsX.Count == 3)
             {
-                cr1_X = blobPoints[0].CenterOfGravity.X;
-                cr1_Y = blobPoints[0].CenterOfGravity.Y;
-                cr2_X = blobPoints[1].CenterOfGravity.X;
-                cr2_Y = blobPoints[1].CenterOfGravity.Y;
+                
                 cr3_X = blobPoints[2].CenterOfGravity.X;
                 cr3_Y = blobPoints[2].CenterOfGravity.Y;
                 graph.DrawEllipse(greenPen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
@@ -557,10 +562,7 @@ namespace DefMat_V2._0
             }
             else if (numericUpDown1.Value == 4 && blobPoints.Length >= 4 && pointsX.Count == 4)
             {
-                cr1_X = blobPoints[0].CenterOfGravity.X;
-                cr1_Y = blobPoints[0].CenterOfGravity.Y;
-                cr2_X = blobPoints[1].CenterOfGravity.X;
-                cr2_Y = blobPoints[1].CenterOfGravity.Y;
+
                 cr3_X = blobPoints[2].CenterOfGravity.X;
                 cr3_Y = blobPoints[2].CenterOfGravity.Y;
                 cr4_X = blobPoints[3].CenterOfGravity.X;
