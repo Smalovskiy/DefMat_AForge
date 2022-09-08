@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DefMat_V2._0.Model
 {
-    class Results
+    class Results 
     {
         public int Id { get; set; }
 

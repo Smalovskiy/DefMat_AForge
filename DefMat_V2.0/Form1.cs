@@ -63,27 +63,57 @@ namespace DefMat_V2._0
             numericUpDown1.Value = 2;
             textBox1.Text = "0,2645833333333";
         }
-        #region Components
+        
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                device = new FilterInfoCollection(FilterCategory.VideoInputDevice);        //Вывод списка устройств
+                for (var i = 0; i < device.Count; i++)                                     //Цикл заполнения списка доступных устройств
+                    toolStripComboBox1.Items.Add(device[i].Name);                          
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти из программы?", "Завершение программы", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (dialog == DialogResult.Yes)
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+        //Скролбар зеленый цвет
         private void sbGreenColor_Scroll(object sender, ScrollEventArgs e)
         {
            iGreenValue = sbGreenColor.Value;
         }
-
+        //Скролбар синий цвет
         private void sbBlueColor_Scroll(object sender, ScrollEventArgs e)
         {
            iBlueValue = sbBlueColor.Value;
         }
-
+        //Скролбар красный цвет
         private void sbRedColor_Scroll(object sender, ScrollEventArgs e)
         {
             iRedValue = sbRedColor.Value;
         }
-
+        //Скролбар радиус тракера
         private void sbRadius_Scroll(object sender, ScrollEventArgs e)
         {
             iRadius = sbRadius.Value;
         }
-
+        //Выбор надстройки синий
         private void rbBlue_CheckedChanged(object sender, EventArgs e)
         {
             if (rbBlue.Checked == true)
@@ -100,7 +130,80 @@ namespace DefMat_V2._0
 
             }
         }
+        //Выбор надстройки зеленый
+        private void rbGreen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbGreen.Checked == true)
+            {
+                iColorMode = 3;
+                sbRadius.Value = 420;
+                sbThreshold.Value = 250;
+                iRadius = sbRadius.Value;
+                iThreshold = sbThreshold.Value;
 
+                sbRedColor.Value = 5;
+                sbGreenColor.Value = 240;
+                sbBlueColor.Value = 5;
+
+            }
+        }
+        //Выбор надстройки красный 
+        private void rbRed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbRed.Checked == true)
+            {
+                iColorMode = 1;
+                sbRadius.Value = 420;
+                sbThreshold.Value = 250;
+                iRadius = sbRadius.Value;
+                iThreshold = sbThreshold.Value;
+
+                sbRedColor.Value = 220;
+                sbGreenColor.Value = 30;
+                sbBlueColor.Value = 30;
+
+            }
+        }
+        //Инициализация камеры и потока
+        private void SrartCameras(int deviceindex)
+        {
+            try
+            {
+                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);
+                captureDevice.VideoResolution = selectResolution(captureDevice);
+                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);
+                captureDevice.Start();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Выберите видеоустройство", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);                                              //Ошибка
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)                   //Кнопка запуска видеопотока
+        {
+            try
+            {
+                SrartCameras(toolStripComboBox1.SelectedIndex);                           //Запуск потока с выбранной камеры
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);                                              //Ошибка
+            }
+        }
+        //Изменения рашрешения кадра
+        private static VideoCapabilities selectResolution(VideoCaptureDevice device)
+        {
+            foreach (var cap in device.VideoCapabilities)
+            {
+                if (cap.FrameSize.Height == 480)
+                    return cap;
+                if (cap.FrameSize.Width == 640)
+                    return cap;
+            }
+            return device.VideoCapabilities.Last();
+        }
+        //Отключение камеры
         private void CloseCapture()
         {
             if (captureDevice != null)
@@ -127,6 +230,7 @@ namespace DefMat_V2._0
                 
             }
         }
+        //Закрытие потока
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             try
@@ -140,23 +244,7 @@ namespace DefMat_V2._0
             }
         }
 
-        private void rbGreen_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbGreen.Checked == true)
-            {
-                iColorMode = 3;
-                sbRadius.Value = 420;
-                sbThreshold.Value = 250;
-                iRadius = sbRadius.Value;
-                iThreshold = sbThreshold.Value;
-
-                sbRedColor.Value = 5;
-                sbGreenColor.Value = 240;
-                sbBlueColor.Value = 5;
-
-            }
-        }
-
+        //Флаг(Галочка) размытия  (используеть для сильнозашумленных кадров)
         private void cbBlur_CheckedChanged(object sender, EventArgs e)
         {
             if (cbBlur.Checked)
@@ -165,28 +253,13 @@ namespace DefMat_V2._0
                 blurFlag = false;
         }
 
-        private void rbRed_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbRed.Checked == true)
-            {
-                iColorMode = 1;
-                sbRadius.Value = 420;
-                sbThreshold.Value = 250;
-                iRadius = sbRadius.Value;
-                iThreshold = sbThreshold.Value;
-
-                sbRedColor.Value = 220;
-                sbGreenColor.Value = 30;
-                sbBlueColor.Value = 30;
-
-            }
-        }
-
+        //Скролбар порога перехода "белого в чёрный"
         private void sbThreshold_Scroll(object sender, ScrollEventArgs e)
         {
             iThreshold = sbThreshold.Value;
         }
 
+        //Функция скрытия\показа рассчётов в зависимости от значения 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if(numericUpDown1.Value < 2 || numericUpDown1.Value > 4)
@@ -240,14 +313,14 @@ namespace DefMat_V2._0
             }
             
         }
-
+        //Форма для графиков
         private void OpenGraphsFormButton_Click(object sender, EventArgs e)
         {
             GraphsForm graphs = new GraphsForm();
             graphs.Show();
 
         }
-
+        //Форма для скринов
         private void OpenScreenshotsFormButton_Click(object sender, EventArgs e)
         {
             ScreenForm screen = new ScreenForm(BsourceFrame);
@@ -255,19 +328,7 @@ namespace DefMat_V2._0
 
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)                   //Кнопка запуска видеопотока
-        {
-            try
-            {
-                SrartCameras(toolStripComboBox1.SelectedIndex);                           //Запуск потока с выбранной камеры
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);                                              //Ошибка
-            }
-        }
-
-
+        
         private void materialsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             checked {};
@@ -286,65 +347,7 @@ namespace DefMat_V2._0
             var catalogResults = new DBResultsForm<Results>(db.Results);
             catalogResults.Show();
         }
-        #endregion
-       
-
-        private void SrartCameras(int deviceindex)                                        
-        {
-            try
-            {
-                captureDevice = new VideoCaptureDevice(device[deviceindex].MonikerString);
-                captureDevice.VideoResolution = selectResolution(captureDevice);
-                captureDevice.NewFrame += new NewFrameEventHandler(get_Frame);             
-                captureDevice.Start();                                                    
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Выберите видеоустройство","Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);                                              //Ошибка
-            }
-        }
-        private static VideoCapabilities selectResolution(VideoCaptureDevice device)
-        {
-            foreach (var cap in device.VideoCapabilities)
-            {
-                if (cap.FrameSize.Height == 480)
-                    return cap;
-                if (cap.FrameSize.Width == 640)
-                    return cap;
-            }
-            return device.VideoCapabilities.Last();
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти из программы?", "Завершение программы", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (dialog == DialogResult.Yes)
-            {
-                e.Cancel = false;
-            }
-            else
-            {
-                e.Cancel = true;
-            }
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                device = new FilterInfoCollection(FilterCategory.VideoInputDevice);        //Вывод списка камер в ComboBox 
-                for (var i = 0; i < device.Count; i++)
-                    toolStripComboBox1.Items.Add(device[i].Name);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        //Метод получения изображения
         private void get_Frame(object sender, NewFrameEventArgs eventArgs)                
         {
             BsourceFrame = (Bitmap)eventArgs.Frame.Clone();                               
@@ -356,6 +359,9 @@ namespace DefMat_V2._0
         }
 
         #region BlobDetection
+        //Основной метод трекинга точек
+        //Данная функция работает постоянно, поскольку программа обрабатывает изображение в реальном времени.
+        //Изображение обрабатывается в градациях серого, трекинг реализован за счёт поиска краевых точек.
         private Bitmap BlobDetection(Bitmap bitmapSourceImage)                           
         {     
             switch (iColorMode)                                                           
@@ -388,61 +394,61 @@ namespace DefMat_V2._0
                     colorFilterImage = colorFilter.Apply(bitmapSourceImage);
                     break;
             }
-
-            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);                          
-            bitmapGreyImage = grayscale.Apply(colorFilterImage);                                 
-
-            if (blurFlag == true)                                                                 
+            
+            Grayscale grayscale = new Grayscale(0.2125, 0.7154, 0.0721);        //Градация серого                         
+            bitmapGreyImage = grayscale.Apply(colorFilterImage);                //Обработка изображения в градациях серого                         
+                                                                                //Выбор опции *Blur* 
+            if (blurFlag == true)                                               //Если вкл.                                
             {
-                GaussianBlur blurfilter = new GaussianBlur(0.7);                                  
-                bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);                              
-                bitmapEdgeImage = edgeFilter.Apply(bitmapBlurImage);
+                GaussianBlur blurfilter = new GaussianBlur(0.7);                //Разметие по Гауссу                            
+                bitmapBlurImage = blurfilter.Apply(bitmapGreyImage);            //Обработка изображения                   
+                bitmapEdgeImage = edgeFilter.Apply(bitmapBlurImage);            //обработка по Собелю(приближенное значение градиента якрости)
             }
-            else if (blurFlag == false)                                                           
+            else if (blurFlag == false)                                         //Если выкл.               
             {
-                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);                              
+                bitmapEdgeImage = edgeFilter.Apply(bitmapGreyImage);                            
             }
 
-            Threshold threshold = new Threshold(iThreshold);                                      
-            bitmapBinaryImage = threshold.Apply(bitmapEdgeImage);                                
+            Threshold threshold = new Threshold(iThreshold);                    //Пороговое значение, все пиксели что выше порога меняются в белый               
+            bitmapBinaryImage = threshold.Apply(bitmapEdgeImage);               //Обработка изображения с пороговым значением                 
 
-            BlobCounter blobCounter = new BlobCounter                                             
+            BlobCounter blobCounter = new BlobCounter                           //Инициализация обьекта подстчета точек с конкретными свойствами                                       
             {                                                                                     
-                MinWidth = 20,
+                MinWidth = 20,                                                  
                 MinHeight = 20,
                 FilterBlobs = true
                 
             };
 
-            blobCounter.ProcessImage(bitmapBinaryImage);                                          
+            blobCounter.ProcessImage(bitmapBinaryImage);                                           
 
-            blobPoints = blobCounter.GetObjectsInformation();                                    
-            graph = Graphics.FromImage(bitmapSourceImage);                                        
-            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();                          
+            blobPoints = blobCounter.GetObjectsInformation();                   //Информация о точках                 
+            graph = Graphics.FromImage(bitmapSourceImage);                      //Инкапсуляция поверхности для рисования                 
+            SimpleShapeChecker shapeChecker = new SimpleShapeChecker();         //Класс проверки простейших форм                 
 
-            for (int i = 0; i < blobPoints.Length; i++)
+            for (int i = 0; i < blobPoints.Length; i++)                         //Цикл прогонки каждой точки
             {
-                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);         
+                List<IntPoint> edgePoint = blobCounter.GetBlobsEdgePoints(blobPoints[i]);     //Запись краевых точек   
                                                                                                   
 
-                if (shapeChecker.IsCircle(edgePoint, out center, out radius))                     
+                if (shapeChecker.IsCircle(edgePoint, out center, out radius))   //если фигура круг                  
                 {
 
-                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 5, 5);
-                    rects = blobCounter.GetObjectsRectangles();
+                    graph.DrawEllipse(pictureboxPen, pictureBox1.Size.Width, pictureBox1.Size.Height, 5, 5);    //Границы
+                    rects = blobCounter.GetObjectsRectangles();                                                 
                     Pen pen = new Pen(Color.Red, ipenWidth);
                     
                     int x = (int)center.X;
                     int y = (int)center.Y;
 
-                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+                    graph.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);      //Основной круг
 
                     centroid_X = (int)blobPoints[i].CenterOfGravity.X;
                     centroid_Y = (int)blobPoints[i].CenterOfGravity.Y;
 
-                    graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);
+                    graph.DrawEllipse(pen, centroid_X, centroid_Y, 1, 1);                                      //Точка в центре круга
 
-                    graph.DrawString(("P")+ Convert.ToString(i + 1), font, brush, x, y + 15);
+                    graph.DrawString(("P")+ Convert.ToString(i + 1), font, brush, x, y + 15);                  //Запись координат
                     graph.DrawString(("X:") + rects[i].X.ToString(), font, brush, x, y + 35);
                     graph.DrawString(("Y:") + rects[i].Y.ToString(), font, brush, x, y + 55);
 
@@ -466,6 +472,7 @@ namespace DefMat_V2._0
         }
         #endregion
         
+        //Обработка уже найденных точек, подсчёт начального расстояния между точками 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if(rects is null)
@@ -478,28 +485,29 @@ namespace DefMat_V2._0
                 for (number = 0; number < rects.Length; number++)
                 {
 
-                    clickInImage = rects[number].Contains(e.Location);
+                    clickInImage = rects[number].Contains(e.Location); 
 
-                    if (clickInImage == true)
+                    if (clickInImage == true) //Если пользователь совершил клик по области круга
                     {
-                        pointsX.Add((int)(blobPoints[number].CenterOfGravity.X));
-                        pointsY.Add((int)(blobPoints[number].CenterOfGravity.Y));
+                        pointsX.Add((int)(blobPoints[number].CenterOfGravity.X)); //Запись координаты X точек в список
+                        pointsY.Add((int)(blobPoints[number].CenterOfGravity.Y)); //Аналогично Y
                     }
                 }
 
-                if (pointsX.Count == 2 )
+                if (pointsX.Count == 2 )         //если точек 2(2 клика), то вычисление идет между двумя точками   
                 {
                     label7.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[1], 2) + Math.Pow(pointsY[0] - pointsY[1], 2))) * longat);
-                } else if(pointsX.Count == 3)
+                } else if(pointsX.Count == 3)   //если 3 то вычисление идёт по принципу  1-----2 и 2------3
                 {
                     label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * longat);
-                } else if(pointsX.Count == 4 && numericUpDown1.Value == 4)
-                {
+                } else if(pointsX.Count == 4 && numericUpDown1.Value == 4) //Если точки 4 то вычисление идёт по принципу 1-------4 
+                {                                                                                                    //и 2-------3          
                     label14.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[1] - pointsX[2], 2) + Math.Pow(pointsY[1] - pointsY[2], 2))) * longat);
                     label17.Text = Convert.ToString((Math.Sqrt(Math.Pow(pointsX[0] - pointsX[3], 2) + Math.Pow(pointsY[0] - pointsY[3], 2))) * longat);
                 }
             }
         }
+        //Форма с конечными результатами
         private void OpenResultsFormButton_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(label7.Text))
@@ -524,14 +532,15 @@ namespace DefMat_V2._0
 
                 }
 
-
+                //Запись в бд
+                //После подключения бд, раскоментить код ниже
                 //Extensions extensions = new Extensions();
                 //extensions.Longation = Math.Round(Convert.ToDouble(label8.Text) - Convert.ToDouble(label7.Text),3);
                 //db.Extensions.Add(extensions);
                 //db.SaveChanges();
             }
         }
-               
+        //Функция обозначения точек, активные точки зелёные(несёт исключительно косметический характер)
         private void MarkerPoints()
         {
             if (blobPoints.Length >= 2)
@@ -542,7 +551,6 @@ namespace DefMat_V2._0
                 cr2_Y = blobPoints[1].CenterOfGravity.Y;
             }
             
-
             if (numericUpDown1.Value == 2 && blobPoints.Length >= 2 && pointsX.Count == 2)
             {
                 
